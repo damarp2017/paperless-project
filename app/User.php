@@ -19,6 +19,16 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $guarded = [];
 
+    public function stores()
+    {
+        return $this->hasMany(Store::class, 'owner_id', 'id');
+    }
+
+    public function ownStore(Store $store)
+    {
+        return auth()->user()->id === $store->owner->id;
+    }
+
     public function sendApiEmailVerificationNotification()
     {
         $this->notify(new ApiVerifyEmail());

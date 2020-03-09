@@ -4,12 +4,12 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class StoreResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
@@ -17,10 +17,12 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'description' => $this->description,
             'email' => $this->email,
-            'joined_at' => $this->created_at->diffForHumans(),
-            'email_verified_at' => ($this->email_verified_at != null) ? $this->email_verified_at->diffForHumans() : "not verified",
-            'stores' => StoreResource::collection($this->stores)
+            'phone' => $this->phone,
+            'rating' => $this->rating,
+            'store_logo' => $this->store_logo,
+            'registered_at' => $this->created_at->diffForHumans()
         ];
     }
 }

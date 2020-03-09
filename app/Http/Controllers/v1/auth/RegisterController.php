@@ -22,6 +22,7 @@ class RegisterController extends Controller
         );
         if ($validator->fails()) {
             return response()->json([
+                'status' => false,
                 'message' => $validator->errors()
             ], 401);
         }
@@ -31,6 +32,6 @@ class RegisterController extends Controller
         $user = User::create($input);
         $user->sendApiEmailVerificationNotification();
         $message = 'Email verification sent, please check your email';
-        return response()->json(['message' => $message], 201);
+        return response()->json(['status' => true,'message' => $message], 201);
     }
 }

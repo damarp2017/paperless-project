@@ -28,4 +28,9 @@ Route::prefix('v1')->group(function () {
     Route::post('register', 'v1\auth\RegisterController@register');
     Route::post('password/email', 'v1\auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'v1\auth\ResetPasswordController@reset');
+
+    Route::prefix('own')->group(function() {
+        Route::get('store', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
+        Route::get('store/{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
+    });
 });
