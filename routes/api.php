@@ -23,4 +23,6 @@ Route::prefix('v1')->group(function () {
     Route::get('email/resend', 'v1\auth\VerificationController@resend')->name('api.verification.resend');
     Route::post('login', 'v1\auth\LoginController@login');
     Route::post('register', 'v1\auth\RegisterController@register');
+    Route::post('password/email', 'v1\auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('password/reset', 'v1\auth\ResetPasswordController@reset');
 });
