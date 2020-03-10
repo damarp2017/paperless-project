@@ -32,5 +32,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('own')->group(function() {
         Route::get('store', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
         Route::get('store/{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
+        Route::post('store', 'v1\owner\StoreController@store')->middleware(['auth:api', 'verified']);
+        Route::post('store/{store}', 'v1\owner\StoreController@update')->middleware(['auth:api', 'verified']);
+        Route::delete('store/{store}', 'v1\owner\StoreController@destroy')->middleware(['auth:api', 'verified']);
     });
 });
