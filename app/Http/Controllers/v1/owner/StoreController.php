@@ -5,7 +5,7 @@ namespace App\Http\Controllers\v1\owner;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StoreResource;
 use App\Store;
-use http\Exception;
+use App\Exceptions\Handler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -74,8 +74,7 @@ class StoreController extends Controller
             return response()->json([
                     'message' => $e,
                     'status' => false
-                ]. 200);
-
+                ], 200);
         }
 
 
