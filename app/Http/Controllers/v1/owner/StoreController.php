@@ -42,32 +42,42 @@ class StoreController extends Controller
 
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'required',
-            'description' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'address' => 'required',
-            'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
-        ];
+        try{
+            $rules = [
+                'name' => 'required',
+                'description' => 'required',
+                'email' => 'required|email',
+                'phone' => 'required',
+                'address' => 'required',
+                'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
+            ];
 
-        $validator = Validator::make($request->all(), $rules);
+            $validator = Validator::make($request->all(), $rules);
 
-        if ($validator->fails()) {
-            return response()->json(['status' => false,'message' => $validator->errors()], 400);
+            if ($validator->fails()) {
+                return response()->json(['status' => false,'message' => $validator->errors()], 400);
+            }
+
+            $input = $request->all();
+            $input['owner_id'] = auth()->user()->id;
+//        $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
+            $store = Store::create($input);
+            $message = "$store->name created successfully";
+
+            return response()->json([
+                'status' => true,
+                'message' => $message,
+                'data' => new StoreResource($store)
+            ], 201);
+        }catch (Exception $e){
+            return response()->json([
+                    'message' => $e,
+                    'status' => false
+                ]. 200);
+
         }
 
-        $input = $request->all();
-        $input['owner_id'] = auth()->user()->id;
-//        $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
-        $store = Store::create($input);
-        $message = "$store->name created successfully";
 
-        return response()->json([
-            'status' => true,
-            'message' => $message,
-            'data' => new StoreResource($store)
-        ], 201);
     }
 
     public function update(Request $request, Store $store)
