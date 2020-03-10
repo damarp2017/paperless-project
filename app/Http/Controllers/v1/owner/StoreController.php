@@ -62,7 +62,9 @@ class StoreController extends Controller
             try{
                 $input = $request->all();
                 $input['owner_id'] = auth()->user()->id;
-                $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
+                if ($request->file('store_logo') != null) {
+                    $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
+                }
                 $store = Store::create($input);
                 $message = "$store->name created successfully";
 
