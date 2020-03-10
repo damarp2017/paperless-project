@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1\owner;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StoreResource;
 use App\Store;
+use http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
