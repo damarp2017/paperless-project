@@ -48,7 +48,7 @@ class StoreController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
             'address' => 'required',
-            'store_logo' => 'required|mimes:jpg,png,jpeg|max:1024',
+            'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -59,7 +59,7 @@ class StoreController extends Controller
 
         $input = $request->all();
         $input['owner_id'] = auth()->user()->id;
-        $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
+//        $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
         $store = Store::create($input);
         $message = "$store->name created successfully";
 
