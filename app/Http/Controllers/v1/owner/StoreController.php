@@ -59,18 +59,26 @@ class StoreController extends Controller
                 return response()->json(['status' => false,'message' => $validator->errors()], 400);
             }
 
-            $input = $request->all();
-            $input['owner_id'] = auth()->user()->id;
+            try{
+                $input = $request->all();
+                $input['owner_id'] = auth()->user()->id;
 //        $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
-            $store = Store::create($input);
-            $message = "$store->name created successfully";
+                $store = Store::create($input);
+                $message = "$store->name created successfully";
 
-            return response()->json([
-                'status' => true,
-                'message' => $message,
-                'data' => new StoreResource($store)
-            ], 201);
-        }catch (Exception $e){
+                return response()->json([
+                    'status' => true,
+                    'message' => $message,
+                    'data' => new StoreResource($store)
+                ], 201);
+            }catch (\Exception $exception){
+                return response()->json([
+                    'message' => $exception,
+                    'status' => false
+                ], 200);
+            }
+
+        }catch (\Exception $e){
             return response()->json([
                     'message' => $e,
                     'status' => false
