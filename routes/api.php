@@ -29,6 +29,12 @@ Route::prefix('v1')->group(function () {
     Route::post('password/email', 'v1\auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'v1\auth\ResetPasswordController@reset');
 
+    Route::get('category', 'v1\CategoryController@index')->middleware(['auth:api', 'verified']);
+    Route::post('category', 'v1\CategoryController@store')->middleware(['auth:api', 'verified']);
+    Route::get('category/{category}', 'v1\CategoryController@show')->middleware(['auth:api', 'verified']);
+    Route::post('category/{category}', 'v1\CategoryController@update')->middleware(['auth:api', 'verified']);
+    Route::delete('category/{category}', 'v1\CategoryController@destroy')->middleware(['auth:api', 'verified']);
+
     Route::prefix('own')->group(function() {
         Route::get('store', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
         Route::get('store/{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
