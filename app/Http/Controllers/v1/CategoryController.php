@@ -87,7 +87,7 @@ class CategoryController extends Controller
             }
             $category = Category::find($category)->first();
             $category->name = $request->name;
-            $category->update();
+//            $category->update();
             $message = $category->name . " updated successfully";
             return response()->json([
                 'status' => false,
