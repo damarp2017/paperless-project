@@ -85,7 +85,7 @@ class CategoryController extends Controller
                     'message' => $validator->errors()
                 ], 400);
             }
-            $category = Category::find($category)->first();
+//            $category = Category::find($category);
             $category->name = $request->name;
             $category->update();
             $message = $category->name . " updated successfully";
