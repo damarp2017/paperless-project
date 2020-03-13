@@ -30,7 +30,6 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         try {
-            $category = Category::find($category)->first();
             return response()->json([
                 'status' => false,
                 'message' => "a category found",
@@ -78,6 +77,7 @@ class CategoryController extends Controller
             $rules = [
                 'name' => 'required',
             ];
+
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
                 return response()->json([
@@ -105,7 +105,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         try {
-            $category = Category::find($category)->first();
             $category->delete();
             $message = $category->name . " deleted successfully";
             return response()->json([
