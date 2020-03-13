@@ -45,6 +45,8 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('{store}/product')->group(function () {
                 Route::get('', 'v1\owner\ProductController@index')->middleware(['auth:api', 'verified']);
+                Route::get('{product}', 'v1\owner\ProductController@show')->middleware(['auth:api', 'verified']);
+                Route::post('', 'v1\owner\ProductController@store')->middleware(['auth:api', 'verified']);
             });
         });
     });
