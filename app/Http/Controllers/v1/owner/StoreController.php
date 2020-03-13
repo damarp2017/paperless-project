@@ -39,8 +39,8 @@ class StoreController extends Controller
 
     public function show(Store $store)
     {
+        $this->authorize('own', $store);
         try {
-            $this->authorize('own', $store);
             return response()->json([
                 'status' => true,
                 'message' => "great " . auth()->user()->name . ", your stores have been found",
@@ -91,8 +91,8 @@ class StoreController extends Controller
 
     public function update(Request $request, Store $store)
     {
+        $this->authorize('own', $store);
         try {
-            $this->authorize('own', $store);
             $rules = [
                 'name' => 'required',
                 'description' => 'required',
@@ -135,8 +135,8 @@ class StoreController extends Controller
 
     public function destroy(Store $store)
     {
+        $this->authorize('own', $store);
         try {
-            $this->authorize('own', $store);
             Storage::delete($store->store_logo);
             $message = "$store->name deleted successfully";
             $store->delete();
