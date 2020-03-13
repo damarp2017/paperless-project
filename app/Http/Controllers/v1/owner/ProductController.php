@@ -12,7 +12,7 @@ class ProductController extends Controller
 {
     public function index(Store $store)
     {
-        try {
+//        try {
             $this->authorize('own', $store);
             $stocks = Stock::where('store_id', $store->id)->get();
             $count = count($stocks);
@@ -29,11 +29,11 @@ class ProductController extends Controller
                 'status' => true,
                 'message' => "$store->name doesn't has any product yet",
             ], 200);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'status' => false,
-                'message' => $exception,
-            ], 500);
-        }
+//        } catch (\Exception $exception) {
+//            return response()->json([
+//                'status' => false,
+//                'message' => $exception,
+//            ], 500);
+//        }
     }
 }
