@@ -163,6 +163,15 @@ class ProductController extends Controller
                 $product->weight = $request->weight;
                 $product->status = $request->status;
                 $product->available_online = $request->available_online;
+
+                if ($request->image != null) {
+                    $file = $request->file('image');
+                    $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
+                    $file_path = 'product/' . $file_name;
+                    Storage::disk('s3')->put($file_path, file_get_contents($file));
+                    $product->image = Storage::disk('s3')->url($file_path, $file_name);
+                }
+
                 $product->save();
 
                 $stock->quantity = $request->quantity;
