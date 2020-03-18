@@ -127,4 +127,88 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function update(Request $request, Store $store, Product $product)
+    {
+        $this->authorize('own', $store);
+        try {
+            $stock = Stock::where(['store_id' => $store->id, 'product_id' => $product->id])->first();
+            if ($stock) {
+                $rules = [
+                    'category_id' => 'required',
+                    'name' => 'required',
+                    'image' => 'mimes:jpg,png,jpeg|max:1024',
+                    'description' => '',
+                    'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'weight' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'status' => 'required',
+                    'available_online' => 'required',
+                    'quantity' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                ];
+
+                $validator = Validator::make($request->all(), $rules);
+
+                if ($validator->fails()) {
+                    return response()->json([
+                        'status' => false,
+                        'message' => $validator->errors()
+                    ], 400);
+                }
+
+                $product->category_id = $request->category_id;
+
+                $product->name = $request->name;
+                $product->description = $request->description;
+                $product->price = $request->price;
+                $product->weight = $request->weight;
+                $product->status = $request->status;
+                $product->available_online = $request->available_online;
+                $product->save();
+
+                $stock->quantity = $request->quantity;
+                $stock->save();
+                return response()->json([
+                    'status' => true,
+                    'message' => "$product->name has been updated",
+                    'data' => new ProductResource($stock),
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'this action is unauthorized',
+                ], 403);
+            }
+        } catch (\Exception $exception) {
+            return response()->json([
+                'status' => false,
+                'message' => $exception,
+            ], 500);
+        }
+    }
+
+    public function destroy(Store $store, Product $product)
+    {
+        $this->authorize('own', $store);
+        try {
+            $stock = Stock::where(['store_id' => $store->id, 'product_id' => $product->id])->first();
+            if ($stock)
+            {
+                $stock->delete();
+                $product->delete();
+                return response()->json([
+                    'status' => true,
+                    'message' => "$product->name on $store->name successfully deleted"
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => "this action is unauthorized",
+                ], 403);
+            }
+        } catch (\Exception $exception) {
+            return response()->json([
+                'status' => false,
+                'message' => $exception,
+            ], 500);
+        }
+    }
 }
