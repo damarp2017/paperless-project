@@ -48,7 +48,7 @@ Route::prefix('v1')->group(function () {
                 Route::get('{product}', 'v1\owner\ProductController@show')->middleware(['auth:api', 'verified']);
                 Route::post('', 'v1\owner\ProductController@store')->middleware(['auth:api', 'verified']);
                 Route::post('{product}', 'v1\owner\ProductController@update')->middleware(['auth:api', 'verified']);
-                Route::delete('{product}', 'v1\owner\ProductController@update')->middleware(['auth:api', 'verified']);
+                Route::delete('{product}', 'v1\owner\ProductController@destroy')->middleware(['auth:api', 'verified']);
             });
         });
     });
