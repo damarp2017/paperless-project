@@ -65,16 +65,37 @@ class StoreController extends Controller
                 'address' => 'required',
                 'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
             ];
+
             $validator = Validator::make($request->all(), $rules);
+
             if ($validator->fails()) {
                 return response()->json(['status' => false, 'message' => $validator->errors()], 400);
             }
-            $input = $request->all();
-            $input['owner_id'] = auth()->user()->id;
-            if ($request->file('store_logo') != null) {
-                $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
-            }
-            $store = Store::create($input);
+
+            $file = $request->file('store_logo');
+            $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
+            $file_path = 'store-logo/' . $file_name;
+
+            $store = new Store();
+            $store->name = $request->name;
+            $store->description = $request->description;
+            $store->email = $request->email;
+            $store->phone = $request->phone;
+            $store->address = $request->address;
+
+            Storage::disk('s3')->put($file_path, file_get_contents($file));
+
+            $store->store_logo = Storage::disk('s3')->url($file_path, $file_name);
+            $store->owner_id = auth()->user()->id;
+
+            $store->save();
+
+//            $input = $request->all();
+//            $input['owner_id'] = auth()->user()->id;
+//            if ($request->file('store_logo') != null) {
+//                $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
+//            }
+//            $store = Store::create($input);
             $message = "$store->name created successfully";
             return response()->json([
                 'status' => true,
@@ -114,9 +135,14 @@ class StoreController extends Controller
             $store->phone = $request->phone;
             $store->address = $request->address;
             if ($request->store_logo != null) {
-                Storage::delete($store->store_logo);
-                $store_logo = $request->file('store_logo')->store('stores/logos');
-                $store->store_logo = $store_logo;
+                $file = $request->file('store_logo');
+                $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
+                $file_path = 'store-logo/' . $file_name;
+                Storage::disk('s3')->put($file_path, file_get_contents($file));
+                $store->store_logo = Storage::disk('s3')->url($file_path, $file_name);
+//                Storage::delete($store->store_logo);
+//                $store_logo = $request->file('store_logo')->store('stores/logos');
+//                $store->store_logo = $store_logo;
             }
             $message = "$store->name updated successfully";
             $store->update();
@@ -137,7 +163,7 @@ class StoreController extends Controller
     {
         $this->authorize('own', $store);
         try {
-            Storage::delete($store->store_logo);
+//            Storage::delete($store->store_logo);
             $message = "$store->name deleted successfully";
             $store->delete();
             return response()->json([

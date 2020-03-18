@@ -8,6 +8,7 @@ use App\Product;
 use App\Stock;
 use App\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -70,6 +71,7 @@ class ProductController extends Controller
             $rules = [
                 'category_id' => 'required',
                 'name' => 'required',
+                'image' => 'required|mimes:jpg,png,jpeg|max:1024',
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'weight' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
@@ -87,9 +89,18 @@ class ProductController extends Controller
                 ], 400);
             }
 
+            $file = $request->file('image');
+            $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
+            $file_path = 'product/' . $file_name;
+
             $product = new Product();
             $product->category_id = $request->category_id;
             $product->name = $request->name;
+
+            Storage::disk('s3')->put($file_path, file_get_contents($file));
+
+            $product->image = Storage::disk('s3')->url($file_path, $file_name);
+
             $product->description = $request->description;
             $product->price = $request->price;
             $product->weight = $request->weight;
