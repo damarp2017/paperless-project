@@ -207,7 +207,7 @@ class ProductController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => "$product->name on $store->name successfully deleted",
-                    'data' => []
+                    'data' => (object) []
                 ], 200);
             } else {
                 return response()->json([
