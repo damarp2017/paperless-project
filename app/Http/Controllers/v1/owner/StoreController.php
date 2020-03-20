@@ -25,8 +25,9 @@ class StoreController extends Controller
                 ], 200);
             } else {
                 return response()->json([
-                    'status' => false,
+                    'status' => true,
                     'message' => "Sorry " . auth()->user()->name . ", you don't have any store yet",
+                    'data' => []
                 ], 200);
             }
         } catch (\Exception $exception) {

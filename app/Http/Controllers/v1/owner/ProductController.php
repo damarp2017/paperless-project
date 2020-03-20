@@ -30,6 +30,7 @@ class ProductController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => "$store->name doesn't has any product yet",
+                'data' => []
             ], 200);
         } catch (\Exception $exception) {
             return response()->json([
