@@ -169,6 +169,7 @@ class StoreController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => $message,
+                'data' => []
             ], 200);
         } catch (\Exception $exception) {
             return response()->json([
