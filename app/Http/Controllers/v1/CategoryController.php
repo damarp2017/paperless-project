@@ -15,7 +15,7 @@ class CategoryController extends Controller
         try {
             $categories = Category::all();
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'message' => "all categories found",
                 'data' => CategoryResource::collection($categories)
             ], 200);
@@ -31,7 +31,7 @@ class CategoryController extends Controller
     {
         try {
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'message' => "a category found",
                 'data' => new CategoryResource($category)
             ], 200);
@@ -90,7 +90,7 @@ class CategoryController extends Controller
             $category->update();
             $message = $category->name . " updated successfully";
             return response()->json([
-                'status' => false,
+                'status' => true,
                 'message' => $message,
                 'data' => new CategoryResource($category)
             ], 200);
