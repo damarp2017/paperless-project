@@ -19,6 +19,7 @@ class CreateStocksTable extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('store_id')->references('id')->on('stores');
             $table->foreign('product_id')->references('id')->on('products');

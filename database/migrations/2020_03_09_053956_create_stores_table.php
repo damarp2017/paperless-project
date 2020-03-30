@@ -21,8 +21,9 @@ class CreateStoresTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('rating')->nullable();
-            $table->string('store_logo')->default('default-store-logo.png');
+            $table->string('store_logo')->default('https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/store-logo.png');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('owner_id')->references('id')->on('users');
         });

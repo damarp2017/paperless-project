@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('image')->default('default-profile.png');
+            $table->string('image')->default('https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone', 15)->nullable();
@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
