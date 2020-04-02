@@ -20,9 +20,9 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->integer('price');
-            $table->float('weight');
+            $table->float('weight')->nullable();
             $table->boolean('status')->default(true);
-            $table->boolean('available_online');
+            $table->boolean('available_online')->default(false);
             $table->timestamps();
             $table->softDeletes();
 

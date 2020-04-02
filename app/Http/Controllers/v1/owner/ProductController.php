@@ -76,8 +76,8 @@ class ProductController extends Controller
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'weight' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'status' => 'required',
-                'available_online' => 'required',
+                'status' => '',
+                'available_online' => '',
                 'quantity' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
             ];
 
@@ -142,8 +142,8 @@ class ProductController extends Controller
                     'description' => '',
                     'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                     'weight' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                    'status' => 'required',
-                    'available_online' => 'required',
+                    'status' => '',
+                    'available_online' => '',
                     'quantity' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 ];
 

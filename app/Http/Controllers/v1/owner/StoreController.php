@@ -59,7 +59,7 @@ class StoreController extends Controller
     {
         try {
             $rules = [
-                'name' => 'required',
+                'name' => 'required', 
                 'description' => 'required',
                 'email' => 'required|email',
                 'phone' => 'required',
