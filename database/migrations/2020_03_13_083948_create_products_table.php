@@ -18,11 +18,11 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->string('image')->default('https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('price');
             $table->float('weight')->nullable();
-            $table->boolean('status')->default(true);
-            $table->boolean('available_online')->default(false);
+            $table->tinyInteger('status')->default(1);
+            $table->boolean('available_online')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

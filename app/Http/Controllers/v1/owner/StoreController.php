@@ -59,12 +59,12 @@ class StoreController extends Controller
     {
         try {
             $rules = [
-                'name' => 'required', 
+                'name' => 'required',
                 'description' => 'required',
                 'email' => 'required|email',
                 'phone' => 'required',
                 'address' => 'required',
-                'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
+                'store_logo' => 'required|mimes:jpg,png,jpeg|max:1024',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -73,31 +73,26 @@ class StoreController extends Controller
                 return response()->json(['status' => false, 'message' => $validator->errors()], 400);
             }
 
-            $file = $request->file('store_logo');
-            $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
-            $file_path = 'store-logo/' . $file_name;
-
             $store = new Store();
             $store->name = $request->name;
             $store->description = $request->description;
             $store->email = $request->email;
             $store->phone = $request->phone;
             $store->address = $request->address;
-
-            Storage::disk('s3')->put($file_path, file_get_contents($file));
-
-            $store->store_logo = Storage::disk('s3')->url($file_path, $file_name);
             $store->owner_id = auth()->user()->id;
+
+            if ($request->store_logo != null) {
+                $file = $request->file('store_logo');
+                $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
+                $file_path = 'store-logo/' . $file_name;
+                Storage::disk('s3')->put($file_path, file_get_contents($file));
+                $store->store_logo = Storage::disk('s3')->url($file_path, $file_name);
+            }
 
             $store->save();
 
-//            $input = $request->all();
-//            $input['owner_id'] = auth()->user()->id;
-//            if ($request->file('store_logo') != null) {
-//                $input['store_logo'] = $request->file('store_logo')->store('stores/logos');
-//            }
-//            $store = Store::create($input);
             $message = "$store->name created successfully";
+
             return response()->json([
                 'status' => true,
                 'message' => $message,

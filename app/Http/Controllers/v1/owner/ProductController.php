@@ -45,8 +45,7 @@ class ProductController extends Controller
         $this->authorize('own', $store);
         try {
             $stock = Stock::where(['store_id' => $store->id, 'product_id' => $product->id])->first();
-            if ($stock)
-            {
+            if ($stock) {
                 return response()->json([
                     'status' => true,
                     'message' => "$product->name on $store->name has been found",
@@ -72,12 +71,12 @@ class ProductController extends Controller
             $rules = [
                 'category_id' => 'required',
                 'name' => 'required',
-                'image' => 'required|mimes:jpg,png,jpeg|max:1024',
+                'image' => 'mimes:jpg,png,jpeg|max:1024',
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'weight' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'status' => '',
-                'available_online' => '',
+                'weight' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+//                'status' => '',
+//                'available_online' => '',
                 'quantity' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
             ];
 
@@ -90,23 +89,23 @@ class ProductController extends Controller
                 ], 400);
             }
 
-            $file = $request->file('image');
-            $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
-            $file_path = 'product/' . $file_name;
-
             $product = new Product();
             $product->category_id = $request->category_id;
             $product->name = $request->name;
 
-            Storage::disk('s3')->put($file_path, file_get_contents($file));
-
-            $product->image = Storage::disk('s3')->url($file_path, $file_name);
+            if ($request->image != null) {
+                $file = $request->file('image');
+                $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
+                $file_path = 'product/' . $file_name;
+                Storage::disk('s3')->put($file_path, file_get_contents($file));
+                $product->image = Storage::disk('s3')->url($file_path, $file_name);
+            }
 
             $product->description = $request->description;
             $product->price = $request->price;
             $product->weight = $request->weight;
-            $product->status = $request->status;
-            $product->available_online = $request->available_online;
+//            $product->status = $request->status;
+//            $product->available_online = $request->available_online;
             $product->save();
 
             $stock = new Stock();
@@ -162,8 +161,14 @@ class ProductController extends Controller
                 $product->description = $request->description;
                 $product->price = $request->price;
                 $product->weight = $request->weight;
-                $product->status = $request->status;
-                $product->available_online = $request->available_online;
+
+                if ($request->status != null) {
+                    $product->status = $request->status;
+                }
+
+                if ($request->available_online != null) {
+                    $product->available_online = $request->available_online;
+                }
 
                 if ($request->image != null) {
                     $file = $request->file('image');
@@ -201,14 +206,13 @@ class ProductController extends Controller
         $this->authorize('own', $store);
         try {
             $stock = Stock::where(['store_id' => $store->id, 'product_id' => $product->id])->first();
-            if ($stock)
-            {
+            if ($stock) {
                 $stock->delete();
                 $product->delete();
                 return response()->json([
                     'status' => true,
                     'message' => "$product->name on $store->name successfully deleted",
-                    'data' => (object) []
+                    'data' => (object)[]
                 ], 200);
             } else {
                 return response()->json([
