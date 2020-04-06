@@ -77,7 +77,7 @@ class ProductController extends Controller
                 'weight' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
 //                'status' => '',
 //                'available_online' => '',
-                'quantity' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -111,7 +111,9 @@ class ProductController extends Controller
             $stock = new Stock();
             $stock->store_id = $store->id;
             $stock->product_id = $product->id;
-            $stock->quantity = $request->quantity;
+            if ($request->quantity != null) {
+                $stock->quantity = $request->quantity;
+            }
             $stock->save();
 
             return response()->json([
@@ -140,10 +142,10 @@ class ProductController extends Controller
                     'image' => 'mimes:jpg,png,jpeg|max:1024',
                     'description' => '',
                     'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                    'weight' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'weight' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                     'status' => '',
                     'available_online' => '',
-                    'quantity' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 ];
 
                 $validator = Validator::make($request->all(), $rules);
@@ -180,8 +182,12 @@ class ProductController extends Controller
 
                 $product->save();
 
-                $stock->quantity = $request->quantity;
+                if ($request->quantity != null) {
+                    $stock->quantity = $request->quantity;
+                }
+
                 $stock->save();
+
                 return response()->json([
                     'status' => true,
                     'message' => "$product->name has been updated",
