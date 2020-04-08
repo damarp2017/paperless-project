@@ -18,6 +18,8 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'phone' => $this->phone,
+            'address' => $this->address,
             'joined_at' => $this->created_at->diffForHumans(),
             'email_verified_at' => ($this->email_verified_at != null) ? $this->email_verified_at->diffForHumans() : "not verified",
             'stores' => StoreResource::collection($this->stores)

@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
-    Route::get('users', 'v1\CheckUserController@check');
+    Route::get('check/users', 'v1\CheckUserController@check');
 
     Route::get('email/verify/{id}', 'v1\auth\VerificationController@verify')->name('api.verification.verify');
     Route::get('email/resend', 'v1\auth\VerificationController@resend')->name('api.verification.resend');
@@ -34,6 +34,8 @@ Route::prefix('v1')->group(function () {
     Route::get('category/{category}', 'v1\CategoryController@show');
     Route::post('category/{category}', 'v1\CategoryController@update');
     Route::delete('category/{category}', 'v1\CategoryController@destroy');
+
+    Route::get('users/profile','v1\ProfileController@index')->middleware(['auth:api', 'verified']);
 
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
