@@ -17,14 +17,14 @@ class ProductController extends Controller
     {
         $this->authorize('own', $store);
         try {
-            $stocks = Stock::where('store_id', $store->id)->get();
-            $count = count($stocks);
+            $products = Product::where('store_id', $store->id)->get();
+            $count = count($products);
             if ($count > 0) {
                 return response()->json([
                     'status' => true,
                     'message' => "all products on $store->name have been found",
                     'count' => $count,
-                    'data' => ProductResource::collection($stocks),
+                    'data' => ProductResource::collection($products),
                 ], 200);
             }
             return response()->json([
@@ -44,12 +44,12 @@ class ProductController extends Controller
     {
         $this->authorize('own', $store);
         try {
-            $stock = Stock::where(['store_id' => $store->id, 'product_id' => $product->id])->first();
-            if ($stock) {
+            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
+            if ($product) {
                 return response()->json([
                     'status' => true,
                     'message' => "$product->name on $store->name has been found",
-                    'data' => new ProductResource($stock)
+                    'data' => new ProductResource($product)
                 ], 200);
             }
             return response()->json([
@@ -75,8 +75,6 @@ class ProductController extends Controller
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'weight' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-//                'status' => '',
-//                'available_online' => '',
                 'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
             ];
 
@@ -91,6 +89,7 @@ class ProductController extends Controller
 
             $product = new Product();
             $product->category_id = $request->category_id;
+            $product->store_id = $store->id;
             $product->name = $request->name;
 
             if ($request->image != null) {
@@ -104,22 +103,15 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->price = $request->price;
             $product->weight = $request->weight;
-//            $product->status = $request->status;
-//            $product->available_online = $request->available_online;
-            $product->save();
-
-            $stock = new Stock();
-            $stock->store_id = $store->id;
-            $stock->product_id = $product->id;
             if ($request->quantity != null) {
-                $stock->quantity = $request->quantity;
+                $product->quantity = $request->quantity;
             }
-            $stock->save();
+            $product->save();
 
             return response()->json([
                 'status' => true,
                 'message' => "$product->name has been created",
-                'data' => new ProductResource($stock),
+                'data' => new ProductResource($product),
             ], 201);
 
         } catch (\Exception $exception) {
@@ -134,8 +126,8 @@ class ProductController extends Controller
     {
         $this->authorize('own', $store);
         try {
-            $stock = Stock::where(['store_id' => $store->id, 'product_id' => $product->id])->first();
-            if ($stock) {
+            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
+            if ($product) {
                 $rules = [
                     'category_id' => 'required',
                     'name' => 'required',
@@ -180,18 +172,16 @@ class ProductController extends Controller
                     $product->image = Storage::disk('s3')->url($file_path, $file_name);
                 }
 
-                $product->save();
-
                 if ($request->quantity != null) {
-                    $stock->quantity = $request->quantity;
+                    $product->quantity = $request->quantity;
                 }
 
-                $stock->save();
+                $product->save();
 
                 return response()->json([
                     'status' => true,
                     'message' => "$product->name has been updated",
-                    'data' => new ProductResource($stock),
+                    'data' => new ProductResource($product),
                 ], 200);
             } else {
                 return response()->json([
@@ -211,9 +201,8 @@ class ProductController extends Controller
     {
         $this->authorize('own', $store);
         try {
-            $stock = Stock::where(['store_id' => $store->id, 'product_id' => $product->id])->first();
-            if ($stock) {
-                $stock->delete();
+            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
+            if ($product) {
                 $product->delete();
                 return response()->json([
                     'status' => true,

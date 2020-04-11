@@ -1,5 +1,6 @@
 <?php
 
+use App\Store;
 use Illuminate\Database\Seeder;
 
 class StoreSeeder extends Seeder
@@ -11,7 +12,7 @@ class StoreSeeder extends Seeder
      */
     public function run()
     {
-        \App\Store::create([
+        Store::create([
             'name' => 'Toko Damar',
             'description' => 'Ini adalah deskripsi toko damar',
             'email' => 'damarp2017@gmail.com',
@@ -20,7 +21,7 @@ class StoreSeeder extends Seeder
             'owner_id' => 1,
         ]);
 
-        \App\Store::create([
+        Store::create([
             'name' => 'Toko Yudha',
             'description' => 'Ini adalah deskripsi toko yudha keling',
             'email' => 'akaditasustono@gmail.com',
