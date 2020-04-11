@@ -174,4 +174,26 @@ class StoreController extends Controller
             ], 500);
         }
     }
+
+    public function search(Request $request)
+    {
+        $data = $request->get('query');
+        $stores = Store::where('name', 'like', "%{$data}%")->where('owner_id', auth()->user()->id)->get();
+        $count = count($stores);
+        if ($count) {
+            return response()->json([
+                'count' => $count,
+                'status' => true,
+                'message' => "your stores have been found",
+                'data' => $stores,
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'count' => $count,
+                'message' => "opss, it seems stores that you're looking for is doesn't exist",
+                'data' => (object)[],
+            ]);
+        }
+    }
 }

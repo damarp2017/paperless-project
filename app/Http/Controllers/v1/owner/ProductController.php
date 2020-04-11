@@ -232,4 +232,27 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function search(Request $request, Store $store)
+    {
+        $data = $request->get('query');
+        $products = Product::where('name', 'like', "%{$data}%")
+            ->where('store_id', $store->id)->get();
+        $count = count($products);
+        if ($count) {
+            return response()->json([
+                'count' => $count,
+                'status' => true,
+                'message' => "your products have been found",
+                'data' => $products,
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'count' => $count,
+                'message' => "opss, it seems products that you're looking for is doesn't exist",
+                'data' => (object)[],
+            ]);
+        }
+    }
 }

@@ -17,4 +17,27 @@ class CheckUserController extends Controller
             'data' => UserResource::collection($user)
         ], 200);
     }
+
+    public function search(Request $request)
+    {
+        $data = $request->get('query');
+        $users = User::where('name', 'like', "%{$data}%")
+            ->orWhere('email', 'like', "%{$data}%")->get();
+        $count = count($users);
+        if ($count) {
+            return response()->json([
+                'count' => $count,
+                'status' => true,
+                'message' => "users have been found",
+                'data' => $users,
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'count' => $count,
+                'message' => "opss, it seems users that you're looking for is doesn't exist",
+                'data' => (object)[],
+            ]);
+        }
+    }
 }

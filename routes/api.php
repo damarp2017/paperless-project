@@ -37,16 +37,21 @@ Route::prefix('v1')->group(function () {
 
     Route::get('users/profile','v1\ProfileController@index')->middleware(['auth:api', 'verified']);
 
+    Route::get('search', 'v1\CheckUserController@search');
+
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
+            Route::get('search', 'v1\owner\StoreController@search')->middleware(['auth:api', 'verified']);
             Route::get('{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
             Route::post('', 'v1\owner\StoreController@store')->middleware(['auth:api', 'verified']);
             Route::post('{store}', 'v1\owner\StoreController@update')->middleware(['auth:api', 'verified']);
             Route::delete('{store}', 'v1\owner\StoreController@destroy')->middleware(['auth:api', 'verified']);
 
+
             Route::prefix('{store}/product')->group(function () {
                 Route::get('', 'v1\owner\ProductController@index')->middleware(['auth:api', 'verified']);
+                Route::get('search', 'v1\owner\ProductController@search')->middleware(['auth:api', 'verified']);
                 Route::get('{product}', 'v1\owner\ProductController@show')->middleware(['auth:api', 'verified']);
                 Route::post('', 'v1\owner\ProductController@store')->middleware(['auth:api', 'verified']);
                 Route::post('{product}', 'v1\owner\ProductController@update')->middleware(['auth:api', 'verified']);
