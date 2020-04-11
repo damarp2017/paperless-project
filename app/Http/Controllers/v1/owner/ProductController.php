@@ -92,6 +92,10 @@ class ProductController extends Controller
             $product->store_id = $store->id;
             $product->name = $request->name;
 
+            if ($request->code!=null) {
+                $product->code = $request->code;
+            }
+
             if ($request->image != null) {
                 $file = $request->file('image');
                 $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
@@ -155,6 +159,10 @@ class ProductController extends Controller
                 $product->description = $request->description;
                 $product->price = $request->price;
                 $product->weight = $request->weight;
+
+                if ($request->code!=null) {
+                    $product->code = $request->code;
+                }
 
                 if ($request->status != null) {
                     $product->status = $request->status;
