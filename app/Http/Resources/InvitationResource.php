@@ -25,6 +25,7 @@ class InvitationResource extends JsonResource
                 'name' => $this->user->name,
             ],
             'role' => $this->role,
+            'status' => $this->status,
             'invited_at' => $this->created_at->diffForHumans()
         ];
     }
