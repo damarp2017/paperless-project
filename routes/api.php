@@ -39,6 +39,13 @@ Route::prefix('v1')->group(function () {
 
     Route::get('search', 'v1\CheckUserController@search');
 
+    // Invitation out
+    Route::post('invitation/out', 'v1\owner\InvitationController@invite')->middleware(['auth:api', 'verified']);
+
+    // Invitation in
+    Route::get('invitation/in', 'v1\InvitationController@index')->middleware(['auth:api', 'verified']);
+
+
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
@@ -48,6 +55,8 @@ Route::prefix('v1')->group(function () {
             Route::post('{store}', 'v1\owner\StoreController@update')->middleware(['auth:api', 'verified']);
             Route::delete('{store}', 'v1\owner\StoreController@destroy')->middleware(['auth:api', 'verified']);
 
+            // get invitation out by store
+            Route::get('{store}/invitation/out', 'v1\owner\InvitationController@index')->middleware(['auth:api', 'verified']);
 
             Route::prefix('{store}/product')->group(function () {
                 Route::get('', 'v1\owner\ProductController@index')->middleware(['auth:api', 'verified']);

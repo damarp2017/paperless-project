@@ -20,4 +20,14 @@ class Store extends Model
     {
         return $this->hasMany(Product::class, 'store_id', 'id');
     }
+
+    public function invitation()
+    {
+        return $this->hasMany(Invitation::calss, 'requested_by_store', 'id');
+    }
+
+    public function employee()
+    {
+        return $this->hasMany(Employee::class, 'store_id', 'id');
+    }
 }

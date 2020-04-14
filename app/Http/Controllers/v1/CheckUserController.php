@@ -36,7 +36,7 @@ class CheckUserController extends Controller
                 'status' => true,
                 'count' => $count,
                 'message' => "opss, it seems users that you're looking for is doesn't exist",
-                'data' => (object)[],
+                'data' => [],
             ]);
         }
     }
