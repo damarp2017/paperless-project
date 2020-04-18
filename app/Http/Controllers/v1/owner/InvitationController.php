@@ -30,7 +30,7 @@ class InvitationController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => "Sorry " . auth()->user()->name . ", you don't have any invitation yet",
-                    'data' => (object) []
+                    'data' => []
                 ], 200);
             }
         } catch (\Exception $exception) {

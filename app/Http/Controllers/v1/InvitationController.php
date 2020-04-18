@@ -25,7 +25,7 @@ class InvitationController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => "Sorry " . auth()->user()->name . ", there is no invitation for you",
-                    'data' => (object)[]
+                    'data' => []
                 ], 200);
             }
         } catch (\Exception $exception) {
