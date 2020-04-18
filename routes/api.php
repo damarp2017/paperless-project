@@ -45,6 +45,12 @@ Route::prefix('v1')->group(function () {
     // Invitation in
     Route::get('invitation/in', 'v1\InvitationController@index')->middleware(['auth:api', 'verified']);
 
+    // Accept Invitation In
+    Route::get('invitation/in/{invitation}/accept', 'v1\InvitationController@accept')->middleware(['auth:api', 'verified']);
+
+    // Reject Invitation In
+    Route::get('invitation/in/{invitation}/reject', 'v1\InvitationController@reject')->middleware(['auth:api', 'verified']);
+
 
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {

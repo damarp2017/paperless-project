@@ -19,6 +19,7 @@ class InvitationResource extends JsonResource
             'requested_by_store' => [
                 'id' => $this->store->id,
                 'name' => $this->store->name,
+                'store_logo' => $this->store->store_logo
             ],
             'to' => [
                 'id' => $this->user->id,
