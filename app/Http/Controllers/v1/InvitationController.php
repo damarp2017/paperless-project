@@ -61,21 +61,28 @@ class InvitationController extends Controller
         }
     }
 
-    public function reject(Invitation $invitation)
+    public function reject($invitation)
     {
-        $invitation = Invitation::find($invitation)->where('to', auth()->user()->id)->first();
-        if ($invitation) {
-            $invitation->status = false;
-            $invitation->update();
+        $invitation = Invitation::where('id', $invitation)->first();
+        try {
+            if ($invitation) {
+                $invitation->status = true;
+                $invitation->update();
+                return response()->json([
+                    'status' => true,
+                    'message' => "great " . auth()->user()->name . ", you have been rejected the invitation",
+                    'data' => new InvitationInResource($invitation)
+                ]);
+            }
             return response()->json([
-                'status' => true,
-                'message' => "great " . auth()->user()->name . ", you have been rejected the invitation",
-                'data' => new InvitationInResource($invitation)
-            ]);
+                'status' => false,
+                'message' => "not found",
+            ], 404);
+        } catch (\Exception $exception) {
+            return response()->json([
+                'status' => false,
+                'message' => $exception,
+            ], 500);
         }
-        return response()->json([
-            'status' => false,
-            'message' => "not found",
-        ], 404);
     }
 }
