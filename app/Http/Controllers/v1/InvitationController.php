@@ -36,9 +36,9 @@ class InvitationController extends Controller
         }
     }
 
-    public function accept(Invitation $invitation)
+    public function accept($invitation)
     {
-        $invitation = Invitation::find($invitation)->where('to', auth()->user()->id)->first();
+        $invitation = Invitation::where('id', $invitation)->first();
         try {
             if ($invitation) {
                 $invitation->status = true;
