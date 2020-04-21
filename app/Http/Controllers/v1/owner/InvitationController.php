@@ -82,7 +82,7 @@ class InvitationController extends Controller
         // check apakah user yang akan diinvite sudah menjadi employee di store lain
         if ($this->checkEmployee($request->to)) {
             return response()->json([
-                'status' => true,
+                'status' => false,
                 'message' => "$to->name is an employee on another store",
                 'data' => (object) [],
             ], 200);
@@ -91,7 +91,7 @@ class InvitationController extends Controller
         // check apakah sudah pernah menginvite dan belum dijawab
         if ($this->isWaitingResponse($store->id, $request->to)) {
             return response()->json([
-                'status' => true,
+                'status' => false,
                 'message' => "you have invited $to->name, waiting for this user's response",
                 'data' => (object) [],
             ], 200);
