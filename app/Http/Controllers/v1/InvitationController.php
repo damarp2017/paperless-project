@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InvitationInResource;
 use App\Invitation;
@@ -38,6 +39,13 @@ class InvitationController extends Controller
 
     public function accept($invitation)
     {
+        if ($this->checkEmployee()) {
+            return response()->json([
+                'status' => false,
+                'message' => "sorry, you registered as employee on another store",
+                'data' => (object) []
+            ], 200);
+        }
         $invitation = Invitation::where('id', $invitation)->first();
         try {
             if ($invitation) {
@@ -84,5 +92,11 @@ class InvitationController extends Controller
                 'message' => $exception,
             ], 500);
         }
+    }
+
+    private function checkEmployee()
+    {
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+        return ($employee ? true : false);
     }
 }
