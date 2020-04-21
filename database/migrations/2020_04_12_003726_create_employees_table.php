@@ -17,7 +17,7 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->bigInteger('store_id');
             $table->bigInteger('user_id');
-            $table->boolean('role');
+            $table->tinyInteger('role');
             $table->timestamps();
             $table->softDeletes();
 
