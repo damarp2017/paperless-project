@@ -42,7 +42,7 @@ class InvitationController extends Controller
         if ($this->checkEmployee()) {
             return response()->json([
                 'status' => false,
-                'message' => "sorry, you registered as employee on another store",
+                'message' => "sorry, you registered as employee",
                 'data' => (object) []
             ], 200);
         }
@@ -51,6 +51,13 @@ class InvitationController extends Controller
             if ($invitation) {
                 $invitation->status = true;
                 $invitation->update();
+
+                $employee = new Employee();
+                $employee->store_id = $invitation->requested_by_store;
+                $employee->user_id = $invitation->to;
+                $employee->role = $invitation->role;
+                $employee->save();
+
                 return response()->json([
                     'status' => true,
                     'message' => "great " . auth()->user()->name . ", you have been accepted the invitation",
