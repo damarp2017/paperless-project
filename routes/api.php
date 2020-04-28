@@ -52,6 +52,9 @@ Route::prefix('v1')->group(function () {
     Route::get('invitation/in/{invitation}/reject', 'v1\InvitationController@reject')->middleware(['auth:api', 'verified']);
 
 
+    // test order
+    Route::post('/order', 'v1\OrderController@store')->middleware(['auth:api', 'verified']);
+
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
@@ -72,6 +75,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('{product}', 'v1\owner\ProductController@update')->middleware(['auth:api', 'verified']);
                 Route::delete('{product}', 'v1\owner\ProductController@destroy')->middleware(['auth:api', 'verified']);
             });
+
         });
     });
 });

@@ -23,7 +23,7 @@ class Store extends Model
 
     public function invitation()
     {
-        return $this->hasMany(Invitation::calss, 'requested_by_store', 'id');
+        return $this->hasMany(Invitation::class, 'requested_by_store', 'id');
     }
 
     public function employee()
