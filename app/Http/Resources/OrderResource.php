@@ -21,16 +21,16 @@ class OrderResource extends JsonResource
         $store = Store::where('id', $this['store_id'])->first();
         $count = count($this['products']);
 
-        $data = (array) null;
-        $total_price = (array) null;
+//        $data = (array) null;
+//        $total_price = (array) null;
 
         for ($i=0; $i < $count ; $i++) {
             $product = Product::where('id', $this['products'][$i]['id'])->first();
             $product->order_quantity = $this['products'][$i]['quantity'];
             $product->order_price = $this['products'][$i]['price'];
             $total_price_per_item = $this['products'][$i]['price'] * $this['products'][$i]['quantity'];
-            array_push($data, $product);
-            array_push($total_price, $total_price_per_item);
+            $data[] = $product;
+            $total_price[] = $total_price_per_item;
         }
 
         return [
