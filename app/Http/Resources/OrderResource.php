@@ -21,8 +21,8 @@ class OrderResource extends JsonResource
         $store = Store::where('id', $this['store_id'])->first();
         $count = count($this['products']);
 
-        $products = new \stdClass();
-        $total_price[] = new \stdClass();
+        $products = (array) null;
+        $total_price = (array) null;
 
         for ($i=0; $i < $count ; $i++) {
             $product = Product::where('id', $this['products'][$i]['id'])->first();
