@@ -21,7 +21,7 @@ class OrderResource extends JsonResource
         $store = Store::where('id', $this['store_id'])->first();
         $count = count($this['products']);
 
-        $products = (array) null;
+        $data = (array) null;
         $total_price = (array) null;
 
         for ($i=0; $i < $count ; $i++) {
@@ -29,7 +29,7 @@ class OrderResource extends JsonResource
             $product->order_quantity = $this['products'][$i]['quantity'];
             $product->order_price = $this['products'][$i]['price'];
             $total_price_per_item = $this['products'][$i]['price'] * $this['products'][$i]['quantity'];
-            array_push($products, $product);
+            array_push($data, $product);
             array_push($total_price, $total_price_per_item);
         }
 
