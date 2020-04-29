@@ -44,7 +44,7 @@ class OrderResource extends JsonResource
             ],
             'order_count' => $count,
             'total_price' => array_sum($total_price),
-            'products' => ProductOnOrderResource::collection($data)
+            'products' => $data
         ];
     }
 }
