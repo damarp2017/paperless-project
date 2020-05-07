@@ -15,14 +15,17 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('store_id');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('sell_by_store');
+            $table->unsignedBigInteger('buy_by_user')->nullable();
+            $table->unsignedBigInteger('buy_by_store')->nullable();
+            $table->integer('discount')->default(0);
             $table->tinyInteger('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('store_id')->references('id')->on('stores');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('sell_by_store')->references('id')->on('stores');
+            $table->foreign('buy_by_user')->references('id')->on('users');
+            $table->foreign('buy_by_store')->references('id')->on('stores');
         });
     }
 

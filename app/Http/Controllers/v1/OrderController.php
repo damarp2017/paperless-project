@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Order;
 use App\OrderDetail;
+use App\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -16,17 +17,27 @@ class OrderController extends Controller
 
         // save new order
         $order = new Order();
-        $order->store_id = $data['store_id'];
-        $order->user_id = $data['user_id'];
-        $order->code = date('ymdHis') . "-" . $order->store_id . "-" . $order->user_id;
+        $order->sell_by_store = $data['sell_by_store'];
+        if ($request->has('buy_by_user')) {
+            $order->buy_by_user = $data['buy_by_user'];
+            $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-" . $order->buy_by_user . "-0";
+        } elseif ($request->has('buy_by_store')) {
+            $order->buy_by_store = $data['buy_by_store'];
+            $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-" . $order->buy_by_store;
+        } else {
+            $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-0";
+        }
         $order->save();
 
         // save product on order_details
         $products = $data['products'];
         for ($i = 0; $i < count($products); $i++) {
             $detail = new OrderDetail();
+            $product = Product::where('id', $products[$i]['id'])->first();
             $detail->order_id = $order->id;
             $detail->product_id = $products[$i]['id'];
+            $detail->name = $product->name;
+            $detail->image = $product->image;
             $detail->price = $products[$i]['price'];
             $detail->quantity = $products[$i]['quantity'];
             $detail->save();
@@ -37,7 +48,7 @@ class OrderController extends Controller
             'message' => "order created",
             'data' => [
                 'code' => $order->code,
-                'order' => new OrderResource($data)
+                'order' => new OrderResource($data),
             ]
         ], 201);
     }
