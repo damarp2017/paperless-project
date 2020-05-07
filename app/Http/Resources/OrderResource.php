@@ -46,6 +46,8 @@ class OrderResource extends JsonResource
             'buyer' => ($buyer != null) ? ['id' => $buyer->id, 'name' => $buyer->name] : null,
             'order_count' => $count,
             'total_price' => array_sum($total_price),
+            'discount' => $this['discount'],
+            'total_price_with_discount' => array_sum($total_price)-$this['discount'],
             'products' => ProductOnOrderResource::collection($data)
         ];
     }

@@ -27,6 +27,7 @@ class OrderController extends Controller
         } else {
             $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-0";
         }
+        $order->discount = ($request->has('discount')) ? $data['discount'] : 0;
         $order->save();
 
         // save product on order_details
