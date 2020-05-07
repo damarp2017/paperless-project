@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'address' => $this->address,
             'joined_at' => $this->created_at->diffForHumans(),
             'email_verified_at' => ($this->email_verified_at != null) ? $this->email_verified_at->diffForHumans() : "not verified",
-            'stores' => StoreResource::collection($this->stores)
+//            'stores' => StoreResource::collection($this->stores)
         ];
     }
 }

@@ -39,6 +39,8 @@ Route::prefix('v1')->group(function () {
 
     Route::get('search', 'v1\CheckUserController@search');
 
+    Route::get('search-buyer', 'v1\SearchBuyerController@search');
+
     // Invitation out
     Route::post('invitation/out', 'v1\owner\InvitationController@invite')->middleware(['auth:api', 'verified']);
 
