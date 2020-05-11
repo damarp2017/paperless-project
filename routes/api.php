@@ -88,6 +88,10 @@ Route::prefix('v1')->group(function () {
                 Route::delete('{product}', 'v1\owner\ProductController@destroy')->middleware(['auth:api', 'verified']);
             });
 
+            Route::prefix('{store}/employee')->group(function () {
+                Route::get('', 'v1\owner\EmployeeController@index')->middleware(['auth:api', 'verified']);
+            });
+
         });
     });
 });
