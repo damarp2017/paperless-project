@@ -35,6 +35,16 @@ Route::prefix('v1')->group(function () {
     Route::post('category/{category}', 'v1\CategoryController@update');
     Route::delete('category/{category}', 'v1\CategoryController@destroy');
 
+    // store for general
+    Route::get('store', 'v1\StoreController@index');
+    Route::get('store/{store}', 'v1\StoreController@show');
+
+    //product for general
+    Route::get('product', 'v1\ProductController@index');
+    Route::get('product/{product}', 'v1\ProductController@show');
+
+
+
     Route::get('users/profile','v1\ProfileController@index')->middleware(['auth:api', 'verified']);
 
     Route::get('search', 'v1\CheckUserController@search');
