@@ -40,7 +40,7 @@ Route::prefix('v1')->group(function () {
     Route::get('store/{store}', 'v1\StoreController@show');
 
     //product for general
-    Route::get('product', 'v1\ProductController@index');
+    Route::get('product', 'v1\ProductController@search');
     Route::get('product/{product}', 'v1\ProductController@show');
 
 

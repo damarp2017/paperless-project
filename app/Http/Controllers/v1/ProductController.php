@@ -29,6 +29,27 @@ class ProductController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        $data = $request->get('query');
+        $products = Product::where('name', 'like', "%{$data}%")->get();
+        $count = count($products);
+        if ($count) {
+            return response()->json([
+                'status' => true,
+                'message' => "data products have been found",
+                'count' => $count,
+                'data' => ProductResource::collection($products)
+            ]);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => "opss, it seems products that you're looking for is doesn't exist",
+                'data' => [],
+            ]);
+        }
+    }
+
     public function show(Product $product)
     {
         return response()->json([

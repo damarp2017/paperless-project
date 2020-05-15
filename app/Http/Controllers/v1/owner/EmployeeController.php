@@ -19,7 +19,14 @@ class EmployeeController extends Controller
                 'status' => true,
                 'message' => "great, all employees on $store->name have been found",
                 'count' => $count,
-                'data' => EmployeeResource::collection($employees),
+                'data' => [
+                    'store' => [
+                        'id' => $store->id,
+                        'name' => $store->name,
+                        'store_logo' => $store->store_logo
+                    ],
+                    'employees' => EmployeeResource::collection($employees)
+                ],
             ], 200);
         } else {
             return response()->json([
