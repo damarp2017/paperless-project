@@ -67,6 +67,8 @@ Route::prefix('v1')->group(function () {
     // test order
     Route::post('/order', 'v1\OrderController@store')->middleware(['auth:api', 'verified']);
 
+    Route::get('store_as_employee', 'v1\employee\EmployeeController@index')->middleware(['auth:api', 'verified']);
+
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
