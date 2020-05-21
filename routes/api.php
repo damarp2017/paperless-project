@@ -70,7 +70,8 @@ Route::prefix('v1')->group(function () {
 
     Route::post('/order/history', 'v1\OrderController@history')->middleware(['auth:api', 'verified']);
 
-
+    Route::get('/product/{product}', 'v1\ProductController@show')->middleware(['auth:api', 'verified']);
+    Route::get('/store/{store}', 'v1\StoreController@get_store')->middleware(['auth:api', 'verified']);
 
     Route::get('store_as_employee', 'v1\employee\EmployeeController@index')->middleware(['auth:api', 'verified']);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StoreResource;
+use App\Http\Resources\StoreWithProductResource;
 use App\Store;
 use Illuminate\Http\Request;
 
@@ -35,6 +36,14 @@ class StoreController extends Controller
             'status' => true,
             'message' => "great, " . $store->name ." has been found",
             'data' => new StoreResource($store),
+        ], 200);
+    }
+
+    public function get_store(Store $store) {
+        return response()->json([
+            'status' => true,
+            'message' => "great, " . $store->name ." has been found",
+            'data' => new StoreWithProductResource($store)
         ], 200);
     }
 }

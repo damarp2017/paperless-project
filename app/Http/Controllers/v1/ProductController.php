@@ -58,4 +58,14 @@ class ProductController extends Controller
             'data' => new ProductResource($product),
         ], 200);
     }
+
+//    public function get_by_id(Product $product) {
+//        return response()->json([
+//            'status' => true,
+//            'message' => 'OK',
+//            'data' => $product
+//        ]);
+//    }
+
+
 }
