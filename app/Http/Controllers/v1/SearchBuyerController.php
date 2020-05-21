@@ -11,6 +11,14 @@ use Illuminate\Http\Request;
 
 class SearchBuyerController extends Controller
 {
+    public function show(User $user) {
+        return response()->json([
+            'status' => true,
+            'message' => 'OK',
+            'data' => new UserResource($user)
+        ], 200);
+    }
+
     public function search(Request $request)
     {
         $data = $request->get('query');

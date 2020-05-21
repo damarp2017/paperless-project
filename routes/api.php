@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
 
 
     Route::get('users/profile','v1\ProfileController@index')->middleware(['auth:api', 'verified']);
+    Route::get('user/{user}','v1\SearchBuyerController@show')->middleware(['auth:api', 'verified']);
 
     Route::get('search', 'v1\CheckUserController@search');
 
