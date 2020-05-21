@@ -3,14 +3,47 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\UserResource;
 use App\Order;
 use App\OrderDetail;
 use App\Product;
+use App\Store;
+use App\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function history(Request $request) {
+        $data = $request->all();
+        $all_orders = Order::where('buy_by_user', auth()->user()->id)->get();
+        $user = auth()->user();
+        if ($request->has('store_id')) {
+            $store = Store::where('id', $data['store_id'])->first();
+            $out = Order::where('buy_by_store', $store->id)->get();
+            $in = Order::where('sell_by_store', $store->id)->get();
+        }
+        return response()->json([
+            'data' => [
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'image' => $user->image,
+                    'orders' => OrderProductResource::collection($all_orders),
+                ],
+                'store' => (!$request->has('store_id')) ? (object) [] : [
+                    'id' => $store->id,
+                    'name' => $store->name,
+                    'store_logo' => $store->store_logo,
+                    'out' => OrderProductResource::collection($out),
+                    'in' => OrderProductResource::collection($in),
+                ]
+            ]
+        ]);
+
+    }
+
     public function store(Request $request)
     {
         $data = $request->all();

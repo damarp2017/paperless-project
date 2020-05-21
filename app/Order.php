@@ -11,14 +11,19 @@ class Order extends Model
 
     protected $guarded = [];
 
-    public function user()
+    public function buyer_user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'buy_by_user', 'id');
     }
 
-    public function store()
+    public function seller_store()
     {
-        return $this->belongsTo(Store::class, 'store_id', 'id');
+        return $this->belongsTo(Store::class, 'sell_by_store', 'id');
+    }
+
+    public function buyer_store()
+    {
+        return $this->belongsTo(Store::class, 'buy_by_store', 'id');
     }
 
     public function order_detail()
