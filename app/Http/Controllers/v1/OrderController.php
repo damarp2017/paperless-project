@@ -25,6 +25,8 @@ class OrderController extends Controller
             $in = Order::where('sell_by_store', $store->id)->get();
         }
         return response()->json([
+            'status' => true,
+            'message' => 'OK',
             'data' => [
                 'user' => [
                     'id' => $user->id,
