@@ -75,6 +75,8 @@ Route::prefix('v1')->group(function () {
 
     Route::get('store_as_employee', 'v1\employee\EmployeeController@index')->middleware(['auth:api', 'verified']);
 
+    Route::get('my_workplace', 'v1\employee\EmployeeController@my_workplace')->middleware(['auth:api', 'verified']);
+
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
@@ -98,6 +100,7 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('{store}/employee')->group(function () {
                 Route::get('', 'v1\owner\EmployeeController@index')->middleware(['auth:api', 'verified']);
+                Route::delete('{employee}', 'v1\owner\EmployeeController@destroy')->middleware(['auth:api', 'verified']);
             });
 
         });

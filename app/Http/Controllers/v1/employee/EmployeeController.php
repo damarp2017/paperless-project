@@ -26,8 +26,26 @@ class EmployeeController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'OK',
-            'data' => (object) [],
+            'data' => (object)[],
         ], 200);
 
+    }
+
+    public function my_workplace(Request $request)
+    {
+        $employee = Employee::where('user_id', auth()->user()->id)->first();
+        if ($employee) {
+            $store = Store::where('id', $employee->store_id)->first();
+            return response()->json([
+                'status' => true,
+                'message' => 'your workplace found',
+                'data' => new StoreResource($store)
+            ]);
+        }
+        return response()->json([
+            'status' => false,
+            'message' => "you didn't have workplace",
+            'data' => (object) [],
+        ]);
     }
 }

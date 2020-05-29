@@ -31,9 +31,19 @@ class EmployeeController extends Controller
         } else {
             return response()->json([
                 'status' => true,
-                'message' => "Sorry, we don't have any store yet",
+                'message' => "Sorry, we don't have any employee yet",
                 'data' => []
             ], 200);
         }
+    }
+
+    public function destroy(Store $store, Employee $employee)
+    {
+        $employee->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'deleted successfuully',
+            'data' => new EmployeeResource($employee)
+        ]);
     }
 }
