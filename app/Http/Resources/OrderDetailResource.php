@@ -22,7 +22,12 @@ class OrderDetailResource extends JsonResource
             'image' => $this->image,
             'price' => $this->price,
             'quantity' => $this->quantity,
-            'sold_at' => $this->created_at->diffForHumans()
+            'sold_at' => $this->created_at->diffForHumans(),
+            'datetime' => date_format($this->created_at, "d-m-Y h:i"),
+            'category' => [
+                'id' => $this->product->category->id,
+                'name' => $this->product->category->name,
+            ]
         ];
     }
 }
