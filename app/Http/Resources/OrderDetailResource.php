@@ -23,7 +23,7 @@ class OrderDetailResource extends JsonResource
             'price' => $this->price,
             'quantity' => $this->quantity,
             'sold_at' => $this->created_at->diffForHumans(),
-            'datetime' => date_format($this->created_at, "d-m-Y h:i"),
+//            'datetime' => date_format($this->created_at, "d-m-Y h:i"),
             'category' => [
                 'id' => $this->product->category->id,
                 'name' => $this->product->category->name,

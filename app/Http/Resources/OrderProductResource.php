@@ -29,6 +29,7 @@ class OrderProductResource extends JsonResource
                 'id' => $this->buyer_store->id,
                 'name' => $this->buyer_store->name,
             ],
+            'datetime' => date_format($this->created_at, 'd-m-Y H:i'),
             'order_details' => OrderDetailResource::collection($this->order_detail),
         ];
     }
