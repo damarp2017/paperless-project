@@ -56,12 +56,14 @@ class OrderController extends Controller
         if ($request->has('buy_by_user')) {
             $order->buy_by_user = $data['buy_by_user'];
             $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-" . $order->buy_by_user . "-0";
-        } elseif ($request->has('buy_by_store')) {
+        }
+        if ($request->has('buy_by_store')) {
             $order->buy_by_store = $data['buy_by_store'];
             $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-" . $order->buy_by_store;
-        } else {
-            $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-0";
         }
+        //  else {
+        //     $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-0";
+        // }
         $order->discount = ($request->has('discount')) ? $data['discount'] : 0;
         $order->save();
 

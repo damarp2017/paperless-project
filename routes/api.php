@@ -79,6 +79,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
+            
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
             Route::get('search', 'v1\owner\StoreController@search')->middleware(['auth:api', 'verified']);
             Route::get('{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
