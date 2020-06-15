@@ -39,7 +39,10 @@ class EmployeeController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'your workplace found',
-                'data' => new StoreResource($store)
+                'data' => [
+                    'role' => $employee->role,
+                    'store' => new StoreResource($store)
+                ]
             ]);
         }
         return response()->json([
