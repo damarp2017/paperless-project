@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 
     Route::get('check/users', 'v1\CheckUserController@check');
+    Route::post('report', 'v1\reports\ReportController@report');
 
     Route::get('email/verify/{id}', 'v1\auth\VerificationController@verify')->name('api.verification.verify');
     Route::get('email/resend', 'v1\auth\VerificationController@resend')->name('api.verification.resend');
@@ -79,7 +80,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('own')->group(function() {
         Route::prefix('store')->group(function () {
-            
+
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
             Route::get('search', 'v1\owner\StoreController@search')->middleware(['auth:api', 'verified']);
             Route::get('{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
