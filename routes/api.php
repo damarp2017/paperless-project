@@ -22,6 +22,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('check/users', 'v1\CheckUserController@check');
     Route::post('report', 'v1\reports\ReportController@report');
+    Route::post('invoice', 'v1\reports\ReportController@invoice');
 
     Route::get('email/verify/{id}', 'v1\auth\VerificationController@verify')->name('api.verification.verify');
     Route::get('email/resend', 'v1\auth\VerificationController@resend')->name('api.verification.resend');

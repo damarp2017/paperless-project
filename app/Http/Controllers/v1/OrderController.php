@@ -85,6 +85,7 @@ class OrderController extends Controller
             'status' => true,
             'message' => "order created",
             'data' => [
+                'id' => $order->id,
                 'code' => $order->code,
                 'order' => new OrderResource($data),
             ]
