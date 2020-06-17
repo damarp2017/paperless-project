@@ -15,7 +15,7 @@ class ProductController extends Controller
 {
     public function index(Store $store)
     {
-        $this->authorize('own', $store);
+//        $this->authorize('own', $store);
         try {
             $products = Product::where('store_id', $store->id)->get();
             $count = count($products);
@@ -42,7 +42,7 @@ class ProductController extends Controller
 
     public function show(Store $store, Product $product)
     {
-        $this->authorize('own', $store);
+//        $this->authorize('own', $store);
         try {
             $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
             if ($product) {
@@ -66,7 +66,7 @@ class ProductController extends Controller
 
     public function store(Request $request, Store $store)
     {
-        $this->authorize('own', $store);
+//        $this->authorize('own', $store);
         try {
             $rules = [
                 'category_id' => 'required',
@@ -128,7 +128,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Store $store, Product $product)
     {
-        $this->authorize('own', $store);
+//        $this->authorize('own', $store);
         try {
             $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
             if ($product) {
@@ -207,7 +207,7 @@ class ProductController extends Controller
 
     public function destroy(Store $store, Product $product)
     {
-        $this->authorize('own', $store);
+//        $this->authorize('own', $store);
         try {
             $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
             if ($product) {
