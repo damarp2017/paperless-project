@@ -15,10 +15,12 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function history(Request $request) {
+    public function history(Request $request)
+    {
         $data = $request->all();
         $all_orders = Order::where('buy_by_user', auth()->user()->id)->get();
         $user = auth()->user();
+
         if ($request->has('store_id')) {
             $store = Store::where('id', $data['store_id'])->first();
             $out = Order::where('buy_by_store', $store->id)->get();
@@ -34,7 +36,7 @@ class OrderController extends Controller
                     'image' => $user->image,
                     'orders' => OrderProductResource::collection($all_orders),
                 ],
-                'store' => (!$request->has('store_id')) ? (object) [] : [
+                'store' => (!$request->has('store_id')) ? (object)[] : [
                     'id' => $store->id,
                     'name' => $store->name,
                     'store_logo' => $store->store_logo,
@@ -56,14 +58,12 @@ class OrderController extends Controller
         if ($request->has('buy_by_user')) {
             $order->buy_by_user = $data['buy_by_user'];
             $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-" . $order->buy_by_user . "-0";
-        }
-        if ($request->has('buy_by_store')) {
+        } elseif ($request->has('buy_by_store')) {
             $order->buy_by_store = $data['buy_by_store'];
             $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-" . $order->buy_by_store;
+        } else {
+            $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-0";
         }
-        //  else {
-        //     $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-0";
-        // }
         $order->discount = ($request->has('discount')) ? $data['discount'] : 0;
         $order->save();
 
