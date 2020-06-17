@@ -18,6 +18,7 @@ class StoreWithProductResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'store_logo' => $this->store_logo,
+            'description' => $this->description,
             'products' => ProductOnlyResource::collection($this->product)
         ];
     }
