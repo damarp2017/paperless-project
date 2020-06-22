@@ -21,8 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
 
     Route::get('check/users', 'v1\CheckUserController@check');
-    Route::post('report', 'v1\reports\ReportController@report');
-    Route::post('invoice', 'v1\reports\ReportController@invoice');
+    Route::post('report', 'v1\reports\ReportController@report')->middleware(['auth:api', 'verified']);
+    Route::post('invoice', 'v1\reports\ReportController@invoice')->middleware(['auth:api', 'verified']);
 
     Route::get('email/verify/{id}', 'v1\auth\VerificationController@verify')->name('api.verification.verify');
     Route::get('email/resend', 'v1\auth\VerificationController@resend')->name('api.verification.resend');
@@ -38,21 +38,19 @@ Route::prefix('v1')->group(function () {
     Route::delete('category/{category}', 'v1\CategoryController@destroy');
 
     // store for general
-    Route::get('store', 'v1\StoreController@index');
-    Route::get('store/{store}', 'v1\StoreController@show');
+    Route::get('store', 'v1\StoreController@index')->middleware(['auth:api', 'verified']);
+    Route::get('store/{store}', 'v1\StoreController@show')->middleware(['auth:api', 'verified']);
 
     //product for general
-    Route::get('product', 'v1\ProductController@search');
-    Route::get('product/{product}', 'v1\ProductController@show');
-
-
+    Route::get('product', 'v1\ProductController@search')->middleware(['auth:api', 'verified']);
+    Route::get('product/{product}', 'v1\ProductController@show')->middleware(['auth:api', 'verified']);
 
     Route::get('users/profile','v1\ProfileController@index')->middleware(['auth:api', 'verified']);
     Route::get('user/{user}','v1\SearchBuyerController@show')->middleware(['auth:api', 'verified']);
 
-    Route::get('search', 'v1\CheckUserController@search');
+    Route::get('search', 'v1\CheckUserController@search')->middleware(['auth:api', 'verified']);
 
-    Route::get('search-buyer', 'v1\SearchBuyerController@search');
+    Route::get('search-buyer', 'v1\SearchBuyerController@search')->middleware(['auth:api', 'verified']);
 
     // Invitation out
     Route::post('invitation/out', 'v1\owner\InvitationController@invite')->middleware(['auth:api', 'verified']);

@@ -13,17 +13,17 @@ class Order extends Model
 
     public function buyer_user()
     {
-        return $this->belongsTo(User::class, 'buy_by_user', 'id');
+        return $this->belongsTo(User::class, 'buy_by_user', 'id')->withTrashed();
     }
 
     public function seller_store()
     {
-        return $this->belongsTo(Store::class, 'sell_by_store', 'id');
+        return $this->belongsTo(Store::class, 'sell_by_store', 'id')->withTrashed();
     }
 
     public function buyer_store()
     {
-        return $this->belongsTo(Store::class, 'buy_by_store', 'id');
+        return $this->belongsTo(Store::class, 'buy_by_store', 'id')->withTrashed();
     }
 
     public function order_detail()

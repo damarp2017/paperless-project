@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\v1\owner;
 
+use App\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StoreResource;
+use App\Product;
 use App\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -161,6 +163,14 @@ class StoreController extends Controller
         try {
 //            Storage::delete($store->store_logo);
             $message = "$store->name deleted successfully";
+            $products = Product::where('store_id', $store->id)->get();
+            foreach ($products as $product) {
+                $product->delete();
+            }
+            $employees = Employee::where('store_id', $store->id)->get();
+            foreach ($employees as $employee) {
+                $employee->delete();
+            }
             $store->delete();
             return response()->json([
                 'status' => true,

@@ -21,6 +21,7 @@ class OrderProductResource extends JsonResource
                 'name' => $this->seller_store->name,
                 'store_logo' => $this->seller_store->store_logo
             ],
+            'sell_by_user'=> $this->sell_by_user,
             'buy_by_user' => ($this->buy_by_user == null) ? (object) [] : [
                 'id' => $this->buyer_user->id,
                 'name' => $this->buyer_user->name,

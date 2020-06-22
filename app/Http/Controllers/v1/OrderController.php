@@ -64,6 +64,7 @@ class OrderController extends Controller
         } else {
             $order->code = date('ymdHis') . "-" . $order->sell_by_store . "-0-0";
         }
+        $order->sell_by_user = auth()->user()->id;
         $order->discount = ($request->has('discount')) ? $data['discount'] : 0;
         $order->save();
 
