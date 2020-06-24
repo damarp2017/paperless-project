@@ -80,6 +80,8 @@ class OrderController extends Controller
             $detail->price = $products[$i]['price'];
             $detail->quantity = $products[$i]['quantity'];
             $detail->save();
+            $product->quantity -= $detail->quantity;
+            $product->update();
         }
 
         return response()->json([

@@ -26,10 +26,7 @@ class ProductController extends Controller
                     'status' => true,
                     'message' => "all products on $store->name have been found",
                     'count' => $count,
-                    'data' => [
-                        'all_products' => ProductResource::collection($products),
-                        'promo' => ProductResource::collection($products_with_discount),
-                    ]
+                    'data' => ProductResource::collection($products),
                 ], 200);
             }
             return response()->json([
@@ -97,7 +94,7 @@ class ProductController extends Controller
             $product->store_id = $store->id;
             $product->name = $request->name;
 
-            if ($request->code!=null) {
+            if ($request->code != null) {
                 $product->code = $request->code;
             }
 
@@ -165,7 +162,7 @@ class ProductController extends Controller
                 $product->price = $request->price;
                 $product->weight = $request->weight;
 
-                if ($request->code!=null) {
+                if ($request->code != null) {
                     $product->code = $request->code;
                 }
 
@@ -240,19 +237,16 @@ class ProductController extends Controller
         $data = $request->get('query');
         $products = Product::where('name', 'like', "%{$data}%")
             ->where('store_id', $store->id)->get();
-        $products_with_discount = Product::where('name', 'like', "%{$data}%")
-            ->where('store_id', $store->id)
-            ->where('discount_by_percent', '!=', null)->get();
+//        $products_with_discount = Product::where('name', 'like', "%{$data}%")
+//            ->where('store_id', $store->id)
+//            ->where('discount_by_percent', '!=', null)->get();
         $count = count($products);
         if ($count) {
             return response()->json([
                 'count' => $count,
                 'status' => true,
                 'message' => "your products have been found",
-                'data' => [
-                    'all_products' => ProductResource::collection($products),
-                    'promo' => ProductResource::collection($products_with_discount),
-                ]
+                'data' => ProductResource::collection($products),
             ]);
         } else {
             return response()->json([
@@ -279,7 +273,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => false,
             'message' => "discount value must between 0 until 100",
-            'data' => (object) []
+            'data' => (object)[]
         ]);
     }
 }
