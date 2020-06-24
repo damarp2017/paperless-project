@@ -108,9 +108,11 @@ class ProductController extends Controller
 
             $product->description = $request->description;
             $product->price = $request->price;
-            if ($request->quantity != null) {
-                $product->quantity = $request->quantity;
-            }
+            $product->quantity = $request->quantity;
+
+//            if ($request->quantity != null) {
+//                $product->quantity = $request->quantity;
+//            }
             $product->save();
 
             return response()->json([
@@ -176,9 +178,11 @@ class ProductController extends Controller
                     $product->image = Storage::disk('s3')->url($file_path, $file_name);
                 }
 
-                if ($request->quantity != null) {
-                    $product->quantity = $request->quantity;
-                }
+                $product->quantity = $request->quantity;
+
+//                if ($request->quantity != null) {
+//                    $product->quantity = $request->quantity;
+//                }
 
                 $product->save();
 
