@@ -267,12 +267,19 @@ class ProductController extends Controller
     public function discount_by_percent(Request $request)
     {
         $product = Product::where('id', $request->product_id)->first();
-        $product->discount_by_percent = $request->discount_by_percent;
-        $product->update();
+        if ($request->discount_by_percent > 0 && $request->discount_by_percent <= 100) {
+            $product->discount_by_percent = $request->discount_by_percent;
+            $product->update();
+            return response()->json([
+                'status' => true,
+                'message' => "successfully adding discount by percent on product",
+                'data' => new ProductResource($product)
+            ]);
+        }
         return response()->json([
-            'status' => true,
-            'message' => "successfully adding discount by percent on product",
-            'data' => new ProductResource($product)
+            'status' => false,
+            'message' => "discount value must between 0 until 100",
+            'data' => (object) []
         ]);
     }
 }
