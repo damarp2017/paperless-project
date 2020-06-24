@@ -22,6 +22,7 @@ class OrderDetailResource extends JsonResource
             'image' => $this->image,
             'price' => $this->price,
             'quantity' => $this->quantity,
+            'discount_by_percent' => $this->product->discount_by_percent,
             'sold_at' => $this->created_at->diffForHumans(),
 //            'datetime' => date_format($this->created_at, "d-m-Y h:i"),
             'category' => [

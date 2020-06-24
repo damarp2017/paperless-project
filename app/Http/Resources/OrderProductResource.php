@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\OrderDetail;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrderProductResource extends JsonResource
@@ -9,7 +10,7 @@ class OrderProductResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -21,17 +22,22 @@ class OrderProductResource extends JsonResource
                 'name' => $this->seller_store->name,
                 'store_logo' => $this->seller_store->store_logo
             ],
-            'sell_by_user'=> $this->sell_by_user,
-            'buy_by_user' => ($this->buy_by_user == null) ? (object) [] : [
+            'sell_by_user' => $this->sell_by_user,
+            'buy_by_user' => ($this->buy_by_user == null) ? (object)[] : [
                 'id' => $this->buyer_user->id,
                 'name' => $this->buyer_user->name,
             ],
-            'buy_by_store' => ($this->buy_by_store == null) ? (object) [] : [
+            'buy_by_store' => ($this->buy_by_store == null) ? (object)[] : [
                 'id' => $this->buyer_store->id,
                 'name' => $this->buyer_store->name,
             ],
+            'order_count' => count($this->order_detail),
+            'discount' => $this->discount,
+            'total_discount_by_percent' => $this->total_discount_by_percent,
+            'total_price' => $this->total_price,
+            'total_price_with_discount' => $this->total_price_with_discount,
             'datetime' => date_format($this->created_at, 'd-m-Y H:i'),
-            'order_details' => OrderDetailResource::collection($this->order_detail),
+            'order_details' => OrderDetailResource::collection($this->order_detail)
         ];
     }
 }

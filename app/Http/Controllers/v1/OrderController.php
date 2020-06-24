@@ -51,6 +51,9 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $total_price = (array)null;
+        $total_discount_by_percent = (array)null;
+        $total_price_with_discount = (array)null;
 
         // save new order
         $order = new Order();
@@ -68,6 +71,7 @@ class OrderController extends Controller
         $order->discount = ($request->has('discount')) ? $data['discount'] : 0;
         $order->save();
 
+
         // save product on order_details
         $products = $data['products'];
         for ($i = 0; $i < count($products); $i++) {
@@ -79,19 +83,24 @@ class OrderController extends Controller
             $detail->image = $product->image;
             $detail->price = $products[$i]['price'];
             $detail->quantity = $products[$i]['quantity'];
+            $detail->discount_by_percent = $product->discount_by_percent ? $product->discount_by_percent : 0;
+            $total_price[] = $detail->price * $detail->quantity;
+            $total_discount_by_percent[] = $detail->price * $detail->discount_by_percent/100 * $detail->quantity;
             $detail->save();
-            $product->quantity -= $detail->quantity;
-            $product->update();
+            if ($product->quantity != null) {
+                $product->quantity -= $detail->quantity;
+                $product->update();
+            }
         }
+        $order->total_price = array_sum($total_price);
+        $order->total_discount_by_percent = array_sum($total_discount_by_percent);
+        $order->total_price_with_discount = $order->total_price - $order->total_discount_by_percent - $order->discount;
+        $order->update();
 
         return response()->json([
             'status' => true,
             'message' => "order created",
-            'data' => [
-                'id' => $order->id,
-                'code' => $order->code,
-                'order' => new OrderResource($data),
-            ]
+            'data' => new OrderResource($order),
         ], 201);
     }
 }
