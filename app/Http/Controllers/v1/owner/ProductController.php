@@ -179,6 +179,11 @@ class ProductController extends Controller
                 }
 
                 $product->quantity = $request->quantity;
+                $product->discount_by_percent = $request->discount_by_percent;
+
+//                if ($request->discount_by_percent > 0 && $request->discount_by_percent <= 100) {
+//                    $product->discount_by_percent = $request->discount_by_percent;
+//                }
 
 //                if ($request->quantity != null) {
 //                    $product->quantity = $request->quantity;
