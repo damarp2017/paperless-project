@@ -76,7 +76,8 @@ class ProductController extends Controller
                 'image' => 'mimes:jpg,png,jpeg|max:1024',
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+//                'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'quantity' => '',
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -140,7 +141,8 @@ class ProductController extends Controller
                     'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                     'status' => '',
                     'available_online' => '',
-                    'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+//                    'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                    'quantity' => '',
                 ];
 
                 $validator = Validator::make($request->all(), $rules);
