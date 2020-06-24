@@ -24,6 +24,9 @@ Route::prefix('v1')->group(function () {
     Route::post('report', 'v1\reports\ReportController@report')->middleware(['auth:api', 'verified']);
     Route::post('invoice', 'v1\reports\ReportController@invoice')->middleware(['auth:api', 'verified']);
 
+    // discout by percent
+    Route::patch('promo', 'v1\owner\ProductController@discount_by_percent')->middleware(['auth:api', 'verified']);
+
     Route::get('email/verify/{id}', 'v1\auth\VerificationController@verify')->name('api.verification.verify');
     Route::get('email/resend', 'v1\auth\VerificationController@resend')->name('api.verification.resend');
     Route::post('login', 'v1\auth\LoginController@login');
@@ -81,7 +84,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('store')->group(function () {
 
             Route::get('', 'v1\owner\StoreController@index')->middleware(['auth:api', 'verified']);
-            Route::get('search', 'v1\owner\StoreController@search')->middleware(['auth:api', 'verified']);
+//            Route::get('search', 'v1\owner\StoreController@search')->middleware(['auth:api', 'verified']);
             Route::get('{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
             Route::post('', 'v1\owner\StoreController@store')->middleware(['auth:api', 'verified']);
             Route::post('{store}', 'v1\owner\StoreController@update')->middleware(['auth:api', 'verified']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductWithDiscountResource;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -12,13 +13,17 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
+        $products_with_discount = Product::where('discount_by_percent', '!=', null)->get();
         $count = count($products);
         if ($count > 0) {
             return response()->json([
                 'status' => true,
                 'message' => "great, all products have been found",
                 'count' => $count,
-                'data' => ProductResource::collection($products),
+                'data' => [
+                    'all_products' => ProductResource::collection($products),
+                    'promo' => ProductResource::collection($products_with_discount),
+                ]
             ], 200);
         } else {
             return response()->json([
@@ -33,13 +38,18 @@ class ProductController extends Controller
     {
         $data = $request->get('query');
         $products = Product::where('name', 'like', "%{$data}%")->get();
+        $products_with_discount = Product::where('name', 'like', "%{$data}%")
+            ->where('discount_by_percent', '!=', null)->get();
         $count = count($products);
         if ($count) {
             return response()->json([
                 'status' => true,
                 'message' => "data products have been found",
                 'count' => $count,
-                'data' => ProductResource::collection($products)
+                'data' => [
+                    'all_products' => ProductResource::collection($products),
+                    'promo' => ProductResource::collection($products_with_discount),
+                ]
             ]);
         } else {
             return response()->json([

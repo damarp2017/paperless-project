@@ -18,13 +18,18 @@ class ProductController extends Controller
 //        $this->authorize('own', $store);
         try {
             $products = Product::where('store_id', $store->id)->get();
+            $products_with_discount = Product::where('store_id', $store->id)
+                ->where('discount_by_percent', '!=', null)->get();
             $count = count($products);
             if ($count > 0) {
                 return response()->json([
                     'status' => true,
                     'message' => "all products on $store->name have been found",
                     'count' => $count,
-                    'data' => ProductResource::collection($products),
+                    'data' => [
+                        'all_products' => ProductResource::collection($products),
+                        'promo' => ProductResource::collection($products_with_discount),
+                    ]
                 ], 200);
             }
             return response()->json([
@@ -235,13 +240,19 @@ class ProductController extends Controller
         $data = $request->get('query');
         $products = Product::where('name', 'like', "%{$data}%")
             ->where('store_id', $store->id)->get();
+        $products_with_discount = Product::where('name', 'like', "%{$data}%")
+            ->where('store_id', $store->id)
+            ->where('discount_by_percent', '!=', null)->get();
         $count = count($products);
         if ($count) {
             return response()->json([
                 'count' => $count,
                 'status' => true,
                 'message' => "your products have been found",
-                'data' => $products,
+                'data' => [
+                    'all_products' => ProductResource::collection($products),
+                    'promo' => ProductResource::collection($products_with_discount),
+                ]
             ]);
         } else {
             return response()->json([
@@ -251,5 +262,17 @@ class ProductController extends Controller
                 'data' => (object)[],
             ]);
         }
+    }
+
+    public function discount_by_percent(Request $request)
+    {
+        $product = Product::where('id', $request->product_id)->first();
+        $product->discount_by_percent = $request->discount_by_percent;
+        $product->update();
+        return response()->json([
+            'status' => true,
+            'message' => "successfully adding discount by percent on product",
+            'data' => new ProductResource($product)
+        ]);
     }
 }

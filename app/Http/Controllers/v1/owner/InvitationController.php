@@ -15,7 +15,7 @@ class InvitationController extends Controller
 {
     public function index(Store $store)
     {
-        $this->authorize('own', $store);
+//        $this->authorize('own', $store);
         try {
             $invitations = Invitation::where('requested_by_store', $store->id)->get();
             $count = count($invitations);
