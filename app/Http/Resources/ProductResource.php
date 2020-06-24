@@ -21,11 +21,9 @@ class ProductResource extends JsonResource
             'image' => $this->image,
             'description' => $this->description,
             'price' => $this->price,
-            'weight' => $this->weight,
             'quantity' => (int)$this->quantity,
             'discount_by_percent' => $this->discount_by_percent,
             'status' => $this->status,
-            'available_online' => $this->available_online,
             'created_at' => $this->created_at->diffForHumans(),
             'category' => [
                 'id' => $this->category->id,

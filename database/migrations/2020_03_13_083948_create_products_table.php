@@ -22,9 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('code')->nullable();
             $table->text('description')->nullable();
             $table->integer('price');
-            $table->float('weight')->nullable();
             $table->boolean('status')->default(1);
-            $table->boolean('available_online')->default(0);
             $table->integer('quantity')->nullable();
             $table->timestamps();
             $table->softDeletes();

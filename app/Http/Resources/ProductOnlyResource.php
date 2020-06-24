@@ -21,10 +21,8 @@ class ProductOnlyResource extends JsonResource
             'image' => $this->image,
             'description' => $this->description,
             'price' => $this->price,
-            'weight' => $this->weight,
             'quantity' => $this->quantity,
             'status' => $this->status,
-            'available_online' => $this->available_online,
             'created_at' => $this->created_at->diffForHumans(),
             'category' => [
                 'id' => $this->category->id,

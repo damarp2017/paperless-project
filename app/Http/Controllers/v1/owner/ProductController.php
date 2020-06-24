@@ -76,7 +76,6 @@ class ProductController extends Controller
                 'image' => 'mimes:jpg,png,jpeg|max:1024',
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                'weight' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                 'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
             ];
 
@@ -108,7 +107,6 @@ class ProductController extends Controller
 
             $product->description = $request->description;
             $product->price = $request->price;
-            $product->weight = $request->weight;
             if ($request->quantity != null) {
                 $product->quantity = $request->quantity;
             }
@@ -140,7 +138,6 @@ class ProductController extends Controller
                     'image' => 'mimes:jpg,png,jpeg|max:1024',
                     'description' => '',
                     'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                    'weight' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
                     'status' => '',
                     'available_online' => '',
                     'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
@@ -160,7 +157,6 @@ class ProductController extends Controller
                 $product->name = $request->name;
                 $product->description = $request->description;
                 $product->price = $request->price;
-                $product->weight = $request->weight;
 
                 if ($request->code != null) {
                     $product->code = $request->code;
@@ -168,10 +164,6 @@ class ProductController extends Controller
 
                 if ($request->status != null) {
                     $product->status = $request->status;
-                }
-
-                if ($request->available_online != null) {
-                    $product->available_online = $request->available_online;
                 }
 
                 if ($request->image != null) {
