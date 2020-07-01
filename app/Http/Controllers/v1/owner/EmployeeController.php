@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1\owner;
 use App\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\EmployeeResource;
+use App\Invitation;
 use App\Store;
 use Illuminate\Http\Request;
 
@@ -39,7 +40,9 @@ class EmployeeController extends Controller
 
     public function destroy(Store $store, Employee $employee)
     {
-        $employee->delete();
+        $invitation = Invitation::where('to', $employee->user_id)->where('status', true)->first();
+        $invitation->forceDelete();
+        $employee->forceDelete();
         return response()->json([
             'status' => true,
             'message' => 'deleted successfuully',
