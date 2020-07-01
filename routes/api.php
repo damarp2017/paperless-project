@@ -18,7 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::prefix('v1')->group(function () {
+
+    Route::get('test', 'TestFCMController@test');
 
     Route::get('promo', 'v1\ProductController@get_promo')->middleware(['auth:api', 'verified']);
     Route::get('check/users', 'v1\CheckUserController@check');
