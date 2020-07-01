@@ -28,7 +28,7 @@ class TestFCMController extends Controller
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
 
-        $token = "cPoCLcpVQSytoRgXsY_OWm:APA91bE2AJTt3nlNXixx5tRDFmN5ahHQ4iX1PLk0AmG3YWtEJmC18SvsfrOqsbfQV7a82TrQXkNWFP5l1hyeAWltBvT7CKIfxyjUUuex6b8UcOv8g-VyNNGyGaCK61FpN7gUGV1rqKwQ";
+        $token = "eSlIJ9WUSba8xdEbDNZsIz:APA91bERSXSmxqvfw44jirQm2WUfS-gVrEdmjhrfbcDvwC5Kw08eYAsO3qweqplQg8Z46dgbiaEJH_kmnPSKlaeRivWjQ0GILOjuNEPej0DxuVTYsJUfII6eZxB4v14WKlvhkBjW2R6r";
 
         $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
