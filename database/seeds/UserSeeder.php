@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => "damarp2017@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
-            'api_token' => "IniTokenManualHanyaUntukTest-Damar"
+            'api_token' => "IniTokenManualHanyaUntukTest-Damar",
         ]);
 
         User::create([
