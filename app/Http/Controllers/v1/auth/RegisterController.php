@@ -18,6 +18,7 @@ class RegisterController extends Controller
                 'name' => ['required', 'string', 'max:191'],
                 'email' => ['required', 'string', 'email', 'max:191', 'unique:users'],
                 'password' => ['required', 'string', 'min:8'],
+                'fcm_token' => ['required'],
             ]
         );
         if ($validator->fails()) {
