@@ -72,10 +72,17 @@ class ProductController extends Controller
     public function get_promo()
     {
         $products = Product::whereNotNull('discount_by_percent')->get();
+        if ($products) {
+            return response()->json([
+                'status' => true,
+                'message' => "All products with promo found",
+                'data' => ProductResource::collection($products)
+            ]);
+        }
         return response()->json([
             'status' => true,
-            'message' => "All products with promo found",
-            'data' => ProductResource::collection($products)
+            'message' => "There is no products with promo yet",
+            'data' => (object) []
         ]);
     }
 
