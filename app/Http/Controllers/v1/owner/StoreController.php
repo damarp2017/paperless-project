@@ -169,7 +169,7 @@ class StoreController extends Controller
             }
             $employees = Employee::where('store_id', $store->id)->get();
             foreach ($employees as $employee) {
-                $employee->delete();
+                $employee->forceDelete();
             }
             $store->delete();
             return response()->json([

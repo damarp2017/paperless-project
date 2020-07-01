@@ -82,7 +82,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => true,
             'message' => "There is no products with promo yet",
-            'data' => (object) []
+            'data' => []
         ]);
     }
 
