@@ -170,7 +170,7 @@ class StoreController extends Controller
             }
             $employees = Employee::where('store_id', $store->id)->get();
             foreach ($employees as $employee) {
-                $invitation = Invitation::where('to', $employee->id)->where('status', true)->first();
+                $invitation = Invitation::where('to', $employee->user_id)->where('status', true)->first();
                 $invitation->forceDelete();
                 $employee->forceDelete();
             }
