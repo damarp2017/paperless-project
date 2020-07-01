@@ -33,7 +33,7 @@ class OrderProductResource extends JsonResource
             ],
             'order_count' => count($this->order_detail),
             'discount' => $this->discount,
-            'total_discount_by_percent' => $this->total_discount_by_percent,
+            'total_discount_by_percent' => (int)$this->total_discount_by_percent,
             'total_price' => $this->total_price,
             'total_price_with_discount' => $this->total_price_with_discount,
             'datetime' => date_format($this->created_at, 'd-m-Y H:i'),

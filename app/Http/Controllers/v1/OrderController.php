@@ -85,11 +85,24 @@ class OrderController extends Controller
             $detail->quantity = $products[$i]['quantity'];
             $detail->discount_by_percent = $product->discount_by_percent ? $product->discount_by_percent : 0;
             $total_price[] = $detail->price * $detail->quantity;
-            $total_discount_by_percent[] = $detail->price * $detail->discount_by_percent/100 * $detail->quantity;
+            $total_discount_by_percent[] = $detail->price * $detail->discount_by_percent / 100 * $detail->quantity;
             $detail->save();
             if ($product->quantity != null) {
-                $product->quantity -= $detail->quantity;
-                $product->update();
+                if ($product->quantity >= $detail->quantity) {
+                    $product->quantity -= $detail->quantity;
+                    $product->update();
+                } else {
+                    $order_details = OrderDetail::where('order_id', $order->id)->get();
+                    foreach ($order_details as $order_detail) {
+                        $order_detail->forceDelete();
+                    }
+                    $order->forceDelete();
+                    return response()->json([
+                        'status' => false,
+                        'message' => "Maximum order $detail->name is $product->quantity",
+                        'data' => (object)[],
+                    ], 400);
+                }
             }
         }
         $order->total_price = array_sum($total_price);

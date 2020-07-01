@@ -19,8 +19,8 @@ class ProductOnOrderResource extends JsonResource
             'name' => $this->name,
             'image' => $this->image,
             'order' => [
-                'quantity' => $this->order_quantity,
-                'price' => $this->order_price,
+                'quantity' => $this->quantity,
+                'price' => $this->price,
             ]
         ];
     }
