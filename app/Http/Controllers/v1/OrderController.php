@@ -135,19 +135,19 @@ class OrderController extends Controller
 
             $token = $user->fcm_token;
 
-            $downstreamResponse = FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+            FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
 
         } elseif ($request->has('buy_by_store')) {
             // jika pembeli adalah store
             $store = Store::where('id', $data['buy_by_store'])->first();
             $owner = User::where('id', $store->owner_id)->first();
             $token = $owner->fcm_token;
-            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+            FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
             $employees = Employee::where('store_id', $store->id)->get();
             foreach ($employees as $employee) {
                 $user = User::where('id', $employee->user_id)->first();
                 $token = $user->fcm_token;
-                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+                FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
             }
         } else {
             // jika pembeli adalah bukan user paperless
