@@ -131,7 +131,10 @@ class OrderController extends Controller
             // jika pembeli adalah user
             $user = User::where('id', $data['buy_by_user'])->first();
             $token = $user->fcm_token;
-            FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+            $downstreamResponse = FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+            $downstreamResponse->numberSuccess();
+            $downstreamResponse->numberFailure();
+            $downstreamResponse->numberModification();
         } elseif ($request->has('buy_by_store')) {
             // jika pembeli adalah store
             $store = Store::where('id', $data['buy_by_store'])->first();
