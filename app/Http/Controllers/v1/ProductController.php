@@ -69,6 +69,16 @@ class ProductController extends Controller
         ], 200);
     }
 
+    public function get_promo()
+    {
+        $products = Product::whereNotNull('discount_by_percent')->get();
+        return response()->json([
+            'status' => true,
+            'message' => "All products with promo found",
+            'data' => ProductResource::collection($products)
+        ]);
+    }
+
 //    public function get_by_id(Product $product) {
 //        return response()->json([
 //            'status' => true,

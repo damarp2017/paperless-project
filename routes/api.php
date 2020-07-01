@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
 
+    Route::get('promo', 'v1\ProductController@get_promo')->middleware(['auth:api', 'verified']);
     Route::get('check/users', 'v1\CheckUserController@check');
     Route::post('report', 'v1\reports\ReportController@report')->middleware(['auth:api', 'verified']);
     Route::post('invoice', 'v1\reports\ReportController@invoice')->middleware(['auth:api', 'verified']);
@@ -42,7 +43,7 @@ Route::prefix('v1')->group(function () {
 
     // store for general
     Route::get('store', 'v1\StoreController@index')->middleware(['auth:api', 'verified']);
-    Route::get('store/{store}', 'v1\StoreController@show')->middleware(['auth:api', 'verified']);
+//    Route::get('store/{store}', 'v1\StoreController@show')->middleware(['auth:api', 'verified']);
 
     //product for general
     Route::get('product', 'v1\ProductController@search')->middleware(['auth:api', 'verified']);
