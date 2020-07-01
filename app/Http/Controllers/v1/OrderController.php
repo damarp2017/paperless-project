@@ -56,6 +56,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $user = User::where('id', $data['buy_by_user'])->first();
         $total_price = (array)null;
         $total_discount_by_percent = (array)null;
         $total_price_with_discount = (array)null;
@@ -119,40 +120,20 @@ class OrderController extends Controller
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60*20);
 
-        $notificationBuilder = new PayloadNotificationBuilder('Notifikasi Order');
-        $notificationBuilder->setBody('Detail Order')
+        $notificationBuilder = new PayloadNotificationBuilder('my title');
+        $notificationBuilder->setBody('Hello world')
             ->setSound('default');
 
         $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['a_data' => 'aaaaaaa']);
+        $dataBuilder->addData(['a_data' => 'my_data']);
 
         $option = $optionBuilder->build();
         $notification = $notificationBuilder->build();
         $data = $dataBuilder->build();
 
-        if ($request->has('buy_by_user')) {
-            // jika pembeli adalah user
-            $user = User::where('id', $data['buy_by_user'])->first();
+        $token = $user->fcm_token;
 
-            $token = $user->fcm_token;
-
-            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
-
-        } elseif ($request->has('buy_by_store')) {
-            // jika pembeli adalah store
-            $store = Store::where('id', $data['buy_by_store'])->first();
-            $owner = User::where('id', $store->owner_id)->first();
-            $token = $owner->fcm_token;
-            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
-            $employees = Employee::where('store_id', $store->id)->get();
-            foreach ($employees as $employee) {
-                $user = User::where('id', $employee->user_id)->first();
-                $token = $user->fcm_token;
-                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
-            }
-        } else {
-            // jika pembeli adalah bukan user paperless
-        }
+        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
 
         $downstreamResponse->numberSuccess();
         $downstreamResponse->numberFailure();
@@ -169,6 +150,30 @@ class OrderController extends Controller
 
 // return Array (key:token, value:error) - in production you should remove from your database the tokens
         $downstreamResponse->tokensWithError();
+
+//        if ($request->has('buy_by_user')) {
+//            // jika pembeli adalah user
+//            $user = User::where('id', $data['buy_by_user'])->first();
+//
+//            $token = $user->fcm_token;
+//
+//            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+//
+//        } elseif ($request->has('buy_by_store')) {
+//            // jika pembeli adalah store
+//            $store = Store::where('id', $data['buy_by_store'])->first();
+//            $owner = User::where('id', $store->owner_id)->first();
+//            $token = $owner->fcm_token;
+//            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+//            $employees = Employee::where('store_id', $store->id)->get();
+//            foreach ($employees as $employee) {
+//                $user = User::where('id', $employee->user_id)->first();
+//                $token = $user->fcm_token;
+//                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+//            }
+//        } else {
+//            // jika pembeli adalah bukan user paperless
+//        }
 
         return response()->json([
             'status' => true,
