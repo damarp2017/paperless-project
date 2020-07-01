@@ -12,6 +12,8 @@ class LoginController extends Controller
     {
         if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
+            $user->fcm_token = \request('fcm_token');
+            $user->update();
             if ($user->email_verified_at !== null) {
                 $message = "Login Successfull";
                 return response()->json([
