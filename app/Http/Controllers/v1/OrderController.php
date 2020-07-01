@@ -56,7 +56,6 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $user = User::where('id', $data['buy_by_user'])->first();
         $total_price = (array)null;
         $total_discount_by_percent = (array)null;
         $total_price_with_discount = (array)null;
@@ -118,7 +117,7 @@ class OrderController extends Controller
         $optionBuilder = new OptionsBuilder();
         $optionBuilder->setTimeToLive(60 * 20);
 
-        $notificationBuilder = new PayloadNotificationBuilder('Pemesanan');
+        $notificationBuilder = new PayloadNotificationBuilder('Pemesanan' . $order->code);
         $notificationBuilder->setBody('hahahhaha')->setSound('default');
 
         $dataBuilder = new PayloadDataBuilder();
@@ -131,12 +130,8 @@ class OrderController extends Controller
         if ($request->has('buy_by_user')) {
             // jika pembeli adalah user
             $user = User::where('id', $data['buy_by_user'])->first();
-
-
             $token = $user->fcm_token;
-
             FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
-
         } elseif ($request->has('buy_by_store')) {
             // jika pembeli adalah store
             $store = Store::where('id', $data['buy_by_store'])->first();
