@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
@@ -12,6 +13,10 @@ use App\Product;
 use App\Store;
 use App\User;
 use Illuminate\Http\Request;
+use LaravelFCM\Facades\FCM;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
 
 class OrderController extends Controller
 {
@@ -72,6 +77,7 @@ class OrderController extends Controller
         $order->save();
 
 
+
         // save product on order_details
         $products = $data['products'];
         for ($i = 0; $i < count($products); $i++) {
@@ -109,6 +115,60 @@ class OrderController extends Controller
         $order->total_discount_by_percent = array_sum($total_discount_by_percent);
         $order->total_price_with_discount = $order->total_price - $order->total_discount_by_percent - $order->discount;
         $order->update();
+
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60*20);
+
+        $notificationBuilder = new PayloadNotificationBuilder('Notifikasi Order');
+        $notificationBuilder->setBody('Detail Order')
+            ->setSound('default');
+
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['a_data' => 'aaaaaaa']);
+
+        $option = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $data = $dataBuilder->build();
+
+        if ($request->has('buy_by_user')) {
+            // jika pembeli adalah user
+            $user = User::where('id', $data['buy_by_user'])->first();
+
+            $token = $user->fcm_token;
+
+            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+        } elseif ($request->has('buy_by_store')) {
+            // jika pembeli adalah store
+            $store = Store::where('id', $data['buy_by_store'])->first();
+            $owner = User::where('id', $store->owner_id)->first();
+            $token = $owner->fcm_token;
+            $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+            $employees = Employee::where('store_id', $store->id)->get();
+            foreach ($employees as $employee) {
+                $user = User::where('id', $employee->user_id)->first();
+                $token = $user->fcm_token;
+                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+            }
+        } else {
+            // jika pembeli adalah bukan user paperless
+        }
+
+        $downstreamResponse->numberSuccess();
+        $downstreamResponse->numberFailure();
+        $downstreamResponse->numberModification();
+
+// return Array - you must remove all this tokens in your database
+        $downstreamResponse->tokensToDelete();
+
+// return Array (key : oldToken, value : new token - you must change the token in your database)
+        $downstreamResponse->tokensToModify();
+
+// return Array - you should try to resend the message to the tokens in the array
+        $downstreamResponse->tokensToRetry();
+
+// return Array (key:token, value:error) - in production you should remove from your database the tokens
+        $downstreamResponse->tokensWithError();
 
         return response()->json([
             'status' => true,
