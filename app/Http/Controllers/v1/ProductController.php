@@ -72,7 +72,7 @@ class ProductController extends Controller
     public function get_promo()
     {
         $products = Product::whereNotNull('discount_by_percent')->get();
-        if ($products) {
+        if ($products->count()) {
             return response()->json([
                 'status' => true,
                 'message' => "All products with promo found",
