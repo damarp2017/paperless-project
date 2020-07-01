@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1\owner;
 use App\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StoreResource;
+use App\Invitation;
 use App\Product;
 use App\Store;
 use Illuminate\Http\Request;
@@ -169,6 +170,8 @@ class StoreController extends Controller
             }
             $employees = Employee::where('store_id', $store->id)->get();
             foreach ($employees as $employee) {
+                $invitation = Invitation::where('to', $employee->id)->where('status', true)->first();
+                $invitation->forceDelete();
                 $employee->forceDelete();
             }
             $store->delete();
