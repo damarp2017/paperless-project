@@ -161,7 +161,7 @@ class OrderController extends Controller
             $notif->subtitle = "Selamat "
                 . strtoupper($owner_buyer_store->name) . ", transaksi pembelian oleh cabang "
                 . strtoupper($buyer_store->name) . " anda sejumlah Rp. "
-                . number_format($order->price, 2) . " pada "
+                . number_format($order->total_price_with_discount, 2) . " pada "
                 . strtoupper($store->name) . " telah berhasil dilakukan.";
             $notif->save();
 
@@ -181,16 +181,16 @@ class OrderController extends Controller
 
             $employees = Employee::where('store_id', $store->id)->get();
             foreach ($employees as $employee) {
-                $user = User::where('id', $employee->user_id)->first();
-                $token_employee = $user->fcm_token;
+                $employee = User::where('id', $employee->user_id)->first();
+                $token_employee = $employee->fcm_token;
 
                 $notif = new Notification();
                 $notif->sender = $store->id;
-                $notif->receiver = $user->id;
+                $notif->receiver = $employee->id;
                 $notif->type = Notification::$ORDER;
                 $notif->title = "Transaksi Pembelian Berhasil!";
                 $notif->subtitle = "Selamat "
-                    . strtoupper($user->name) . ", transaksi pembelian oleh cabang "
+                    . strtoupper($employee->name) . ", transaksi pembelian oleh cabang "
                     . strtoupper($buyer_store->name) . " milik "
                     . strtoupper($owner_buyer_store->name) . " sejumlah Rp. "
                     . number_format($order->price, 2) . " pada "
