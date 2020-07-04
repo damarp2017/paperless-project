@@ -150,16 +150,16 @@ class OrderController extends Controller
         } elseif ($request->has('buy_by_store')) {
             // jika pembeli adalah store
             $buyer_store = Store::where('id', $data['buy_by_store'])->first();
-            $owner = User::where('id', $store->owner_id)->first();
-            $token = $owner->fcm_token;
+            $owner_buyer_store = User::where('id', $store->owner_id)->first();
+            $token = $owner_buyer_store->fcm_token;
 
             $notif = new Notification();
             $notif->sender = $store->id;
-            $notif->receiver = $owner->id;
+            $notif->receiver = $owner_buyer_store->id;
             $notif->type = Notification::$ORDER;
             $notif->title = "Transaksi Pembelian Berhasil!";
             $notif->subtitle = "Selamat "
-                . strtoupper($owner->name) . ", transaksi pembelian oleh cabang "
+                . strtoupper($owner_buyer_store->name) . ", transaksi pembelian oleh cabang "
                 . strtoupper($buyer_store->name) . " anda sejumlah Rp. "
                 . number_format($order->price, 2) . " pada "
                 . strtoupper($store->name) . " telah berhasil dilakukan.";
@@ -186,12 +186,13 @@ class OrderController extends Controller
 
                 $notif = new Notification();
                 $notif->sender = $store->id;
-                $notif->receiver = $owner->id;
+                $notif->receiver = $user->id;
                 $notif->type = Notification::$ORDER;
                 $notif->title = "Transaksi Pembelian Berhasil!";
                 $notif->subtitle = "Selamat "
-                    . strtoupper($owner->name) . ", transaksi pembelian oleh cabang "
-                    . strtoupper($buyer_store->name) . " sejumlah Rp. "
+                    . strtoupper($user->name) . ", transaksi pembelian oleh cabang "
+                    . strtoupper($buyer_store->name) . " milik "
+                    . strtoupper($owner_buyer_store->name) . " sejumlah Rp. "
                     . number_format($order->price, 2) . " pada "
                     . strtoupper($store->name) . " telah berhasil dilakukan.";
                 $notif->save();
