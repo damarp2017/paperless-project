@@ -125,7 +125,7 @@ class InvitationController extends Controller
         $optionBuild = $optionBuilder->build();
         $notification = $notificationBuilder->build();
         $dataBuild = $dataBuilder->build();
-        FCM::sendTo($to->token, $optionBuild, $notification, $dataBuild);
+        FCM::sendTo($to->fcm_token, $optionBuild, $notification, $dataBuild);
 
         $message = "invitation has been sent";
         return response()->json([
