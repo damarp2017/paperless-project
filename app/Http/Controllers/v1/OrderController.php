@@ -120,7 +120,7 @@ class OrderController extends Controller
         if ($request->has('buy_by_user')) {
             // jika pembeli adalah user
             $user = User::where('id', $data['buy_by_user'])->first();
-            $token = $user->fcm_token;
+            $token_user = $user->fcm_token;
 
             $notif = new Notification();
             $notif->sender = $store->id;
@@ -145,12 +145,12 @@ class OrderController extends Controller
             $optionBuild = $optionBuilder->build();
             $notification = $notificationBuilder->build();
             $dataBuild = $dataBuilder->build();
-            FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+            FCM::sendTo($token_user, $optionBuild, $notification, $dataBuild);
 
         } elseif ($request->has('buy_by_store')) {
             // jika pembeli adalah store
             $buyer_store = Store::where('id', $data['buy_by_store'])->first();
-            $owner_buyer_store = User::where('id', $store->owner_id)->first();
+            $owner_buyer_store = User::where('id', $buyer_store->owner_id)->first();
             $token_owner = $owner_buyer_store->fcm_token;
 
             $notif = new Notification();
