@@ -129,7 +129,7 @@ class OrderController extends Controller
             $notif->title = "Transaksi Pembelian Berhasil!";
             $notif->subtitle = "Selamat "
                 . strtoupper($user->name) . ", transaksi pembelian anda sejumlah Rp. "
-                . number_format($order->price, 2) . " pada "
+                . number_format($order->total_price_with_discount, 2) . " pada "
                 . strtoupper($store->name) . " telah berhasil dilakukan.";
             $notif->save();
 
@@ -145,7 +145,8 @@ class OrderController extends Controller
             $optionBuild = $optionBuilder->build();
             $notification = $notificationBuilder->build();
             $dataBuild = $dataBuilder->build();
-            $downstreamResponse = FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+            FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+
         } elseif ($request->has('buy_by_store')) {
             // jika pembeli adalah store
             $buyer_store = Store::where('id', $data['buy_by_store'])->first();

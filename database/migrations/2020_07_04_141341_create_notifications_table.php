@@ -19,7 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->unsignedInteger('receiver');
             $table->tinyInteger('type');
             $table->string('title');
-            $table->string('subtitle');
+            $table->text('subtitle');
             $table->timestamps();
         });
     }
