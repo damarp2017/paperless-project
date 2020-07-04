@@ -23,6 +23,9 @@ Route::prefix('v1')->group(function () {
 
     Route::get('test', 'TestFCMController@test');
 
+    // notifications
+    Route::get('notifications', 'v1\NotificationController@index')->middleware(['auth:api', 'verified']);
+
     Route::get('promo', 'v1\ProductController@get_promo')->middleware(['auth:api', 'verified']);
     Route::get('check/users', 'v1\CheckUserController@check');
     Route::post('report', 'v1\reports\ReportController@report')->middleware(['auth:api', 'verified']);
