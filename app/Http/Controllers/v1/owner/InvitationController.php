@@ -6,10 +6,15 @@ use App\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InvitationResource;
 use App\Invitation;
+use App\Notification;
 use App\Store;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use LaravelFCM\Facades\FCM;
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
 
 class InvitationController extends Controller
 {
@@ -98,6 +103,29 @@ class InvitationController extends Controller
         }
 
         $invite->save();
+
+        $notif = new Notification();
+        $notif->sender = $store->id;
+        $notif->receiver = $to->id;
+        $notif->type = Notification::$ORDER;
+        $notif->title = "Transaksi Pembelian Berhasil!";
+        $notif->subtitle = "Hai " . strtoupper($to->name) . ", kamu telah diundang oleh " . strtoupper($store->name)
+            . " menjadi karyawan disana";
+        $notif->save();
+
+        $optionBuilder = new OptionsBuilder();
+        $optionBuilder->setTimeToLive(60 * 20);
+
+        $notificationBuilder = new PayloadNotificationBuilder($notif->title);
+        $notificationBuilder->setBody($notif->subtitle)->setSound('default');
+
+        $dataBuilder = new PayloadDataBuilder();
+        $dataBuilder->addData(['type' => 'invitation']);
+
+        $optionBuild = $optionBuilder->build();
+        $notification = $notificationBuilder->build();
+        $dataBuild = $dataBuilder->build();
+        FCM::sendTo($to->token, $optionBuild, $notification, $dataBuild);
 
         $message = "invitation has been sent";
         return response()->json([
