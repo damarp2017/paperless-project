@@ -108,7 +108,7 @@ class InvitationController extends Controller
         $notif->sender = $store->id;
         $notif->receiver = $to->id;
         $notif->type = Notification::$ORDER;
-        $notif->title = "Transaksi Pembelian Berhasil!";
+        $notif->title = "Undangan Menjadi Karyawan";
         $notif->subtitle = "Hai " . strtoupper($to->name) . ", kamu telah diundang oleh " . strtoupper($store->name)
             . " menjadi karyawan disana";
         $notif->save();
