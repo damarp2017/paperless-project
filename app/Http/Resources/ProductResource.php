@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'image' => $this->image,
             'description' => $this->description,
             'price' =>  (int)$this->price,
-            'quantity' => (int)$this->quantity,
+            'quantity' => ($this->quantity != null) ? (int)$this->quantity : null,
             'discount_by_percent' => (int)$this->discount_by_percent ? (int)$this->discount_by_percent : null,
             'status' => $this->status,
             'created_at' => $this->created_at->diffForHumans(),
