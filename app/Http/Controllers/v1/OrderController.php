@@ -179,7 +179,7 @@ class OrderController extends Controller
             $dataBuild = $dataBuilder->build();
             FCM::sendTo($token_owner, $optionBuild, $notification, $dataBuild);
 
-            $employees = Employee::where('store_id', $store->id)->get();
+            $employees = Employee::where('store_id', $buyer_store->id)->get();
             foreach ($employees as $employee) {
                 $employee = User::where('id', $employee->user_id)->first();
                 $token_employee = $employee->fcm_token;
