@@ -151,7 +151,7 @@ class OrderController extends Controller
             // jika pembeli adalah store
             $buyer_store = Store::where('id', $data['buy_by_store'])->first();
             $owner_buyer_store = User::where('id', $store->owner_id)->first();
-            $token = $owner_buyer_store->fcm_token;
+            $token_owner = $owner_buyer_store->fcm_token;
 
             $notif = new Notification();
             $notif->sender = $store->id;
@@ -177,12 +177,12 @@ class OrderController extends Controller
             $optionBuild = $optionBuilder->build();
             $notification = $notificationBuilder->build();
             $dataBuild = $dataBuilder->build();
-            FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+            FCM::sendTo($token_owner, $optionBuild, $notification, $dataBuild);
 
             $employees = Employee::where('store_id', $store->id)->get();
             foreach ($employees as $employee) {
                 $user = User::where('id', $employee->user_id)->first();
-                $token = $user->fcm_token;
+                $token_employee = $user->fcm_token;
 
                 $notif = new Notification();
                 $notif->sender = $store->id;
@@ -209,7 +209,7 @@ class OrderController extends Controller
                 $optionBuild = $optionBuilder->build();
                 $notification = $notificationBuilder->build();
                 $dataBuild = $dataBuilder->build();
-                FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+                FCM::sendTo($token_employee, $optionBuild, $notification, $dataBuild);
             }
         }
 
