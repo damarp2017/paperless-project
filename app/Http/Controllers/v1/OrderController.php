@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderProductResource;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\UserResource;
+use App\Notification;
 use App\Order;
 use App\OrderDetail;
 use App\Product;
@@ -114,38 +115,100 @@ class OrderController extends Controller
         $order->total_price_with_discount = $order->total_price - $order->total_discount_by_percent - $order->discount;
         $order->update();
 
-        $optionBuilder = new OptionsBuilder();
-        $optionBuilder->setTimeToLive(60 * 20);
-
-        $notificationBuilder = new PayloadNotificationBuilder('Pemesanan' . $order->code);
-        $notificationBuilder->setBody('hahahhaha')->setSound('default');
-
-        $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['a_data' => 'my_data']);
-
-        $optionBuild = $optionBuilder->build();
-        $notification = $notificationBuilder->build();
-        $dataBuild = $dataBuilder->build();
+        $store = Store::where('id', $order->sell_by_store)->first();
 
         if ($request->has('buy_by_user')) {
             // jika pembeli adalah user
             $user = User::where('id', $data['buy_by_user'])->first();
             $token = $user->fcm_token;
+
+            $notif = new Notification();
+            $notif->sender = $store->id;
+            $notif->receiver = $user->id;
+            $notif->type = Notification::$ORDER;
+            $notif->title = "Transaksi Pembelian Berhasil!";
+            $notif->subtitle = "Selamat "
+                . strtoupper($user->name) . ", transaksi pembelian anda sejumlah Rp. "
+                . number_format($order->price, 2) . " pada "
+                . strtoupper($store->name) . " telah berhasil dilakukan.";
+            $notif->save();
+
+            $optionBuilder = new OptionsBuilder();
+            $optionBuilder->setTimeToLive(60 * 20);
+
+            $notificationBuilder = new PayloadNotificationBuilder($notif->title);
+            $notificationBuilder->setBody($notif->subtitle)->setSound('default');
+
+            $dataBuilder = new PayloadDataBuilder();
+            $dataBuilder->addData(['type' => 'order']);
+
+            $optionBuild = $optionBuilder->build();
+            $notification = $notificationBuilder->build();
+            $dataBuild = $dataBuilder->build();
             $downstreamResponse = FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
         } elseif ($request->has('buy_by_store')) {
             // jika pembeli adalah store
-            $store = Store::where('id', $data['buy_by_store'])->first();
+            $buyer_store = Store::where('id', $data['buy_by_store'])->first();
             $owner = User::where('id', $store->owner_id)->first();
             $token = $owner->fcm_token;
+
+            $notif = new Notification();
+            $notif->sender = $store->id;
+            $notif->receiver = $owner->id;
+            $notif->type = Notification::$ORDER;
+            $notif->title = "Transaksi Pembelian Berhasil!";
+            $notif->subtitle = "Selamat "
+                . strtoupper($owner->name) . ", transaksi pembelian oleh cabang "
+                . strtoupper($buyer_store->name) . " anda sejumlah Rp. "
+                . number_format($order->price, 2) . " pada "
+                . strtoupper($store->name) . " telah berhasil dilakukan.";
+            $notif->save();
+
+            $optionBuilder = new OptionsBuilder();
+            $optionBuilder->setTimeToLive(60 * 20);
+
+            $notificationBuilder = new PayloadNotificationBuilder($notif->title);
+            $notificationBuilder->setBody($notif->subtitle)->setSound('default');
+
+            $dataBuilder = new PayloadDataBuilder();
+            $dataBuilder->addData(['type' => 'order']);
+
+            $optionBuild = $optionBuilder->build();
+            $notification = $notificationBuilder->build();
+            $dataBuild = $dataBuilder->build();
             FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
+
             $employees = Employee::where('store_id', $store->id)->get();
             foreach ($employees as $employee) {
                 $user = User::where('id', $employee->user_id)->first();
                 $token = $user->fcm_token;
+
+                $notif = new Notification();
+                $notif->sender = $store->id;
+                $notif->receiver = $owner->id;
+                $notif->type = Notification::$ORDER;
+                $notif->title = "Transaksi Pembelian Berhasil!";
+                $notif->subtitle = "Selamat "
+                    . strtoupper($owner->name) . ", transaksi pembelian oleh cabang "
+                    . strtoupper($buyer_store->name) . " sejumlah Rp. "
+                    . number_format($order->price, 2) . " pada "
+                    . strtoupper($store->name) . " telah berhasil dilakukan.";
+                $notif->save();
+
+                $optionBuilder = new OptionsBuilder();
+                $optionBuilder->setTimeToLive(60 * 20);
+
+                $notificationBuilder = new PayloadNotificationBuilder($notif->title);
+                $notificationBuilder->setBody($notif->subtitle)->setSound('default');
+
+                $dataBuilder = new PayloadDataBuilder();
+                $dataBuilder->addData(['type' => 'order']);
+
+                $optionBuild = $optionBuilder->build();
+                $notification = $notificationBuilder->build();
+                $dataBuild = $dataBuilder->build();
                 FCM::sendTo($token, $optionBuild, $notification, $dataBuild);
             }
-        } else {
-            // jika pembeli adalah bukan user paperless
         }
 
         return response()->json([
