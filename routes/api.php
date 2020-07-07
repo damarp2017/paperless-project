@@ -23,6 +23,12 @@ Route::prefix('v1')->group(function () {
 
     Route::get('test', 'TestFCMController@test');
 
+    // update profile but no image
+    Route::put('users/update', 'v1\UserController@updateProfile')->middleware(['auth:api', 'verified']);
+
+    // update profile only image
+    Route::post('users/image/update', 'v1\UserController@updateAvatar')->middleware(['auth:api', 'verified']);
+
     // notifications
     Route::get('notifications', 'v1\NotificationController@index')->middleware(['auth:api', 'verified']);
 
