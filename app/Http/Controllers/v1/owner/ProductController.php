@@ -166,10 +166,6 @@ class ProductController extends Controller
                     $product->code = $request->code;
                 }
 
-                if ($request->status != null) {
-                    $product->status = $request->status;
-                }
-
                 if ($request->image != null) {
                     $file = $request->file('image');
                     $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
@@ -179,6 +175,21 @@ class ProductController extends Controller
                 }
 
                 $product->quantity = $request->quantity;
+
+                if ($request->status == false) {
+                    if ($product->quantity != null) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => 'produk ini memiliki stok',
+                            'data' => (object)[]
+                        ], 400);
+                    } else {
+                        $product->status = (int)$request->status;
+                    }
+                } else {
+                    $product->status = (int)$request->status;
+                }
+
                 $product->discount_by_percent = $request->discount_by_percent;
 
 //                if ($request->discount_by_percent > 0 && $request->discount_by_percent <= 100) {
