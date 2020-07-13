@@ -104,28 +104,30 @@ class InvitationController extends Controller
 
         $invite->save();
 
-        $notif = new Notification();
-        $notif->sender = $store->id;
-        $notif->receiver = $to->id;
-        $notif->type = Notification::$ORDER;
-        $notif->title = "Undangan Menjadi Karyawan";
-        $notif->subtitle = "Hai " . strtoupper($to->name) . ", kamu telah diundang oleh " . strtoupper($store->name)
-            . " menjadi karyawan disana";
-        $notif->save();
+        if ($to->fcm_token != null) {
+            $notif = new Notification();
+            $notif->sender = $store->id;
+            $notif->receiver = $to->id;
+            $notif->type = Notification::$ORDER;
+            $notif->title = "Undangan Menjadi Karyawan";
+            $notif->subtitle = "Hai " . strtoupper($to->name) . ", kamu telah diundang oleh " . strtoupper($store->name)
+                . " menjadi karyawan disana";
+            $notif->save();
 
-        $optionBuilder = new OptionsBuilder();
-        $optionBuilder->setTimeToLive(60 * 20);
+            $optionBuilder = new OptionsBuilder();
+            $optionBuilder->setTimeToLive(60 * 20);
 
-        $notificationBuilder = new PayloadNotificationBuilder($notif->title);
-        $notificationBuilder->setBody($notif->subtitle)->setSound('default');
+            $notificationBuilder = new PayloadNotificationBuilder($notif->title);
+            $notificationBuilder->setBody($notif->subtitle)->setSound('default');
 
-        $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['type' => 'invitation']);
+            $dataBuilder = new PayloadDataBuilder();
+            $dataBuilder->addData(['type' => 'invitation']);
 
-        $optionBuild = $optionBuilder->build();
-        $notification = $notificationBuilder->build();
-        $dataBuild = $dataBuilder->build();
-        FCM::sendTo($to->fcm_token, $optionBuild, $notification, $dataBuild);
+            $optionBuild = $optionBuilder->build();
+            $notification = $notificationBuilder->build();
+            $dataBuild = $dataBuilder->build();
+            FCM::sendTo($to->fcm_token, $optionBuild, $notification, $dataBuild);
+        }
 
         $message = "invitation has been sent";
         return response()->json([
