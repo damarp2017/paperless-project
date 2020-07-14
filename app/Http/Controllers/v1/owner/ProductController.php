@@ -131,6 +131,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Store $store, Product $product)
     {
+//        dd($request->all());
 //        $this->authorize('own', $store);
         try {
             $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
@@ -175,7 +176,11 @@ class ProductController extends Controller
                 }
 
                 $product->quantity = $request->quantity;
-                $product->status = (int)$request->status;
+                if ($request->status == 'true') {
+                    $product->status = 1;
+                } else {
+                    $product->status = 0;
+                }
 
                 $product->discount_by_percent = $request->discount_by_percent;
 
