@@ -175,29 +175,12 @@ class ProductController extends Controller
                 }
 
                 $product->quantity = $request->quantity;
-
-                if ($request->status == false) {
-                    if ($product->quantity != null) {
-                        return response()->json([
-                            'status' => false,
-                            'message' => 'produk ini memiliki stok',
-                            'data' => (object)[]
-                        ], 400);
-                    } else {
-                        $product->status = (int)$request->status;
-                    }
-                } else {
-                    $product->status = (int)$request->status;
-                }
+                $product->status = (int)$request->status;
 
                 $product->discount_by_percent = $request->discount_by_percent;
 
 //                if ($request->discount_by_percent > 0 && $request->discount_by_percent <= 100) {
 //                    $product->discount_by_percent = $request->discount_by_percent;
-//                }
-
-//                if ($request->quantity != null) {
-//                    $product->quantity = $request->quantity;
 //                }
 
                 $product->save();
