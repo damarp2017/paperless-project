@@ -15,8 +15,8 @@ class CreateEmployeesTable extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('store_id');
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('user_id');
             $table->tinyInteger('role');
             $table->timestamps();
             $table->softDeletes();

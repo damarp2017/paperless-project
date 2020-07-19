@@ -15,8 +15,8 @@ class CreateInvitationsTable extends Migration
     {
         Schema::create('invitations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('requested_by_store');
-            $table->bigInteger('to');
+            $table->unsignedBigInteger('requested_by_store');
+            $table->unsignedBigInteger('to');
             $table->boolean('status')->nullable();
             $table->tinyInteger('role');
             $table->string('message')->nullable();
