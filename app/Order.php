@@ -16,6 +16,11 @@ class Order extends Model
         return $this->belongsTo(User::class, 'buy_by_user', 'id')->withTrashed();
     }
 
+    public function seller_user()
+    {
+        return $this->belongsTo(User::class, 'sell_by_user', 'id')->withTrashed();
+    }
+
     public function seller_store()
     {
         return $this->belongsTo(Store::class, 'sell_by_store', 'id')->withTrashed();
