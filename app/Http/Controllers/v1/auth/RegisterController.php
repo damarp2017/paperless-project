@@ -15,10 +15,10 @@ class RegisterController extends Controller
     {
         $validator = Validator::make($request->all(),
             [
-                'name' => ['required', 'string', 'max:191'],
-                'email' => ['required', 'string', 'email', 'max:191', 'unique:users'],
+                'name' => ['required', 'string', 'max:50'],
+                'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
                 'password' => ['required', 'string', 'min:8'],
-                'fcm_token' => ['required'],
+                'fcm_token' => [''],
             ]
         );
         if ($validator->fails()) {
@@ -26,7 +26,7 @@ class RegisterController extends Controller
                 'status' => false,
                 'message' => $validator->errors(),
                 'data' => (object) []
-            ], 401);
+            ], 400);
         }
         $input = $request->all();
         $input['api_token'] = Str::random(80);

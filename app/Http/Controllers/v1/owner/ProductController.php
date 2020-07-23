@@ -15,8 +15,7 @@ class ProductController extends Controller
 {
     public function index(Store $store)
     {
-//        $this->authorize('own', $store);
-        try {
+        if (isOwner($store) || isStaff($store) || isCashier($store)) {
             $products = Product::where('store_id', $store->id)->get();
             $products_with_discount = Product::where('store_id', $store->id)
                 ->where('discount_by_percent', '!=', null)->get();
@@ -34,45 +33,39 @@ class ProductController extends Controller
                 'message' => "$store->name doesn't has any product yet",
                 'data' => []
             ], 200);
-        } catch (\Exception $exception) {
+        } else {
             return response()->json([
                 'status' => false,
-                'message' => $exception,
-            ], 500);
+                'message' => "you do not have access",
+                'data' => []
+            ], 403);
         }
+
     }
 
     public function show(Store $store, Product $product)
     {
-//        $this->authorize('own', $store);
-        try {
-            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
-            if ($product) {
-                return response()->json([
-                    'status' => true,
-                    'message' => "$product->name on $store->name has been found",
-                    'data' => new ProductResource($product)
-                ], 200);
-            }
+        if (isOwner($store) || isStaff($store) || isCashier($store)) {
             return response()->json([
-                'status' => false,
-                'message' => 'this action is unauthorized'
-            ], 403);
-        } catch (\Exception $exception) {
-            return response()->json([
-                'status' => false,
-                'message' => $exception,
-            ], 500);
+                'status' => true,
+                'message' => "$product->name on $store->name has been found",
+                'data' => new ProductResource($product)
+            ], 200);
         }
+        return response()->json([
+            'status' => false,
+            'message' => 'you do not have access',
+            'data' => (object)[]
+        ], 403);
     }
 
     public function store(Request $request, Store $store)
     {
-//        $this->authorize('own', $store);
-        try {
+        if (isOwner($store) || isStaff($store)) {
+
             $rules = [
                 'category_id' => 'required',
-                'name' => 'required',
+                'name' => 'required|max:100',
                 'image' => 'mimes:jpg,png,jpeg|max:1024',
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
@@ -81,6 +74,13 @@ class ProductController extends Controller
             ];
 
             $validator = Validator::make($request->all(), $rules);
+
+            if (isNotCategory($request->category_id)){
+                return response()->json([
+                    'status' => false,
+                    'message' => "category not found"
+                ], 400);
+            }
 
             if ($validator->fails()) {
                 return response()->json([
@@ -120,117 +120,135 @@ class ProductController extends Controller
                 'message' => "$product->name has been created",
                 'data' => new ProductResource($product),
             ], 201);
-
-        } catch (\Exception $exception) {
+        } else {
             return response()->json([
                 'status' => false,
-                'message' => $exception,
-            ], 500);
+                'message' => "you do not have access"
+            ], 403);
         }
+
     }
 
     public function update(Request $request, Store $store, Product $product)
     {
-//        dd($request->all());
-//        $this->authorize('own', $store);
-        try {
-            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
-            if ($product) {
-                $rules = [
-                    'category_id' => 'required',
-                    'name' => 'required',
-                    'image' => 'mimes:jpg,png,jpeg|max:1024',
-                    'description' => '',
-                    'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                    'status' => '',
-                    'available_online' => '',
+        if (isOwner($store) || isStaff($store)) {
+//            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
+            $rules = [
+                'category_id' => 'required',
+                'name' => 'required|max:100',
+                'description' => '',
+                'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
+                'status' => '',
 //                    'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
-                    'quantity' => '',
-                ];
+                'quantity' => '',
+            ];
 
-                $validator = Validator::make($request->all(), $rules);
+            $validator = Validator::make($request->all(), $rules);
 
-                if ($validator->fails()) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => $validator->errors()
-                    ], 400);
-                }
+            if (isNotCategory($request->category_id)){
+                return response()->json([
+                    'status' => false,
+                    'message' => "category not found"
+                ], 400);
+            }
 
-                $product->category_id = $request->category_id;
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 400);
+            }
 
-                $product->name = $request->name;
-                $product->description = $request->description;
-                $product->price = $request->price;
+            $product->category_id = $request->category_id;
 
-                if ($request->code != null) {
-                    $product->code = $request->code;
-                }
+            $product->name = $request->name;
+            $product->description = $request->description;
+            $product->price = $request->price;
 
-                if ($request->image != null) {
-                    $file = $request->file('image');
-                    $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
-                    $file_path = 'product/' . $file_name;
-                    Storage::disk('s3')->put($file_path, file_get_contents($file));
-                    $product->image = Storage::disk('s3')->url($file_path, $file_name);
-                }
+            if ($request->code != null) {
+                $product->code = $request->code;
+            }
 
-                $product->quantity = $request->quantity;
-                if ($request->status == 'true') {
-                    $product->status = 1;
-                } else {
-                    $product->status = 0;
-                }
+            $product->quantity = $request->quantity;
+            if ($request->status == 'true') {
+                $product->status = 1;
+            } else {
+                $product->status = 0;
+            }
 
-                $product->discount_by_percent = $request->discount_by_percent;
+            $product->discount_by_percent = $request->discount_by_percent;
 
 //                if ($request->discount_by_percent > 0 && $request->discount_by_percent <= 100) {
 //                    $product->discount_by_percent = $request->discount_by_percent;
 //                }
 
-                $product->save();
+            $product->save();
 
-                return response()->json([
-                    'status' => true,
-                    'message' => "$product->name has been updated",
-                    'data' => new ProductResource($product),
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => false,
-                    'message' => 'this action is unauthorized',
-                ], 403);
-            }
-        } catch (\Exception $exception) {
+            return response()->json([
+                'status' => true,
+                'message' => "$product->name has been updated",
+                'data' => new ProductResource($product),
+            ], 200);
+        } else {
             return response()->json([
                 'status' => false,
-                'message' => $exception,
-            ], 500);
+                'message' => "you do not have access"
+            ], 403);
+        }
+    }
+
+    public function updateImageProduk(Request $request, Store $store, Product $product)
+    {
+        if (isOwner($store) || isStaff($store)) {
+            $rules = [
+                'image' => 'mimes:jpg,png,jpeg|max:1024',
+            ];
+            if ($request->image != null) {
+                $file = $request->file('image');
+                $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
+                $file_path = 'product/' . $file_name;
+                Storage::disk('s3')->put($file_path, file_get_contents($file));
+                $product->image = Storage::disk('s3')->url($file_path, $file_name);
+            }
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validator->errors()
+                ], 400);
+            }
+
+            $product->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => "$product->name has been updated",
+                'data' => new ProductResource($product),
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "you do not have access"
+            ], 403);
         }
     }
 
     public function destroy(Store $store, Product $product)
     {
-//        $this->authorize('own', $store);
-        try {
-            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
-            if ($product) {
-                $product->delete();
-                return response()->json([
-                    'status' => true,
-                    'message' => "$product->name on $store->name successfully deleted",
-                    'data' => (object)[]
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => "this action is unauthorized",
-                ], 403);
-            }
-        } catch (\Exception $exception) {
+        if (isOwner($store) || isStaff($store)) {
+            $product->delete();
+            return response()->json([
+                'status' => true,
+                'message' => "$product->name on $store->name successfully deleted",
+                'data' => (object)[]
+            ], 200);
+        } else {
             return response()->json([
                 'status' => false,
-                'message' => $exception,
-            ], 500);
+                'message' => "you do not have access"
+            ], 403);
         }
     }
 

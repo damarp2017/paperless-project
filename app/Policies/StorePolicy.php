@@ -24,4 +24,8 @@ class StorePolicy
     {
         return $user->ownStore($store);
     }
+
+    public function staff(User $user, Store $store){
+        return $user->staffRole($store);
+    }
 }

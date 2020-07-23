@@ -90,7 +90,7 @@ class InvitationController extends Controller
                 'status' => false,
                 'message' => "$to->name is an employee on another store",
                 'data' => (object) [],
-            ], 200);
+            ], 400);
         }
 
         // check apakah sudah pernah menginvite dan belum dijawab

@@ -22,10 +22,10 @@ class LoginController extends Controller
                     'data' => $user
                 ], 200);
             } else {
-                return response()->json(['status' => false, 'message' => 'Please verify your email first'], 401);
+                return response()->json(['status' => false, 'message' => 'Please verify your email first'], 400);
             }
         } else {
-            return response()->json(['status' => false, 'message' => 'Unauthorized'], 401);
+            return response()->json(['status' => false, 'message' => 'Your credentials does not match', 'data' => (object)[]], 401);
         }
     }
 }

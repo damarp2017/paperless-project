@@ -100,7 +100,8 @@ Route::prefix('v1')->group(function () {
 //            Route::get('search', 'v1\owner\StoreController@search')->middleware(['auth:api', 'verified']);
             Route::get('{store}', 'v1\owner\StoreController@show')->middleware(['auth:api', 'verified']);
             Route::post('', 'v1\owner\StoreController@store')->middleware(['auth:api', 'verified']);
-            Route::post('{store}', 'v1\owner\StoreController@update')->middleware(['auth:api', 'verified']);
+            Route::put('{store}', 'v1\owner\StoreController@update')->middleware(['auth:api', 'verified']);
+            Route::post('{store}/logo/update', 'v1\owner\StoreController@updateStoreLogo')->middleware(['auth:api', 'verified']);
             Route::delete('{store}', 'v1\owner\StoreController@destroy')->middleware(['auth:api', 'verified']);
 
             // get invitation out by store
@@ -111,7 +112,8 @@ Route::prefix('v1')->group(function () {
                 Route::get('search', 'v1\owner\ProductController@search')->middleware(['auth:api', 'verified']);
                 Route::get('{product}', 'v1\owner\ProductController@show')->middleware(['auth:api', 'verified']);
                 Route::post('', 'v1\owner\ProductController@store')->middleware(['auth:api', 'verified']);
-                Route::post('{product}', 'v1\owner\ProductController@update')->middleware(['auth:api', 'verified']);
+                Route::put('{product}', 'v1\owner\ProductController@update')->middleware(['auth:api', 'verified']);
+                Route::post('{product}/image/update', 'v1\owner\ProductController@updateImageProduk')->middleware(['auth:api', 'verified']);
                 Route::delete('{product}', 'v1\owner\ProductController@destroy')->middleware(['auth:api', 'verified']);
             });
 

@@ -66,6 +66,7 @@ class UserController extends Controller
             Storage::disk('s3')->put($file_path, file_get_contents($file));
             $user->image = Storage::disk('s3')->url($file_path, $file_name);
         }
+
         $user->update();
         return response()->json([
             'status' => true,
