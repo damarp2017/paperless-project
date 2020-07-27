@@ -8,6 +8,7 @@ use App\Http\Resources\EmployeeResource;
 use App\Invitation;
 use App\Store;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -29,6 +30,30 @@ class EmployeeController extends Controller
                 'data' => []
             ], 200);
         }
+    }
+
+    public function updateRole(Request $request, Store $store)
+    {
+        $employee = Employee::where('store_id', $store->id)->where('user_id', $request->employee_id)->first();
+
+        $rules = [
+            'role' => 'required',
+            'employee_id' => 'required',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'message' => $validator->errors()], 400);
+        }
+
+        $employee->role = $request->role;
+        $employee->update();
+        return response()->json([
+            'status' => true,
+            'message' => 'update successfuully',
+            'data' => new EmployeeResource($employee)
+        ]);
     }
 
     public function destroy(Store $store, Employee $employee)

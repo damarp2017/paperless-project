@@ -119,6 +119,7 @@ Route::prefix('v1')->group(function () {
 
             Route::prefix('{store}/employee')->group(function () {
                 Route::get('', 'v1\owner\EmployeeController@index')->middleware(['auth:api', 'verified']);
+                Route::put('', 'v1\owner\EmployeeController@updateRole')->middleware(['auth:api', 'verified']);
                 Route::delete('{employee}', 'v1\owner\EmployeeController@destroy')->middleware(['auth:api', 'verified']);
             });
 
