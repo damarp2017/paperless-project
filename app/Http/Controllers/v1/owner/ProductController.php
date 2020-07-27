@@ -145,17 +145,18 @@ class ProductController extends Controller
 
             $validator = Validator::make($request->all(), $rules);
 
-            if (isNotCategory($request->category_id)){
-                return response()->json([
-                    'status' => false,
-                    'message' => "category not found"
-                ], 400);
-            }
 
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
                     'message' => $validator->errors()
+                ], 400);
+            }
+
+            if (isNotCategory($request->category_id)){
+                return response()->json([
+                    'status' => false,
+                    'message' => "category not found"
                 ], 400);
             }
 
