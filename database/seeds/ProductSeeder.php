@@ -11,12 +11,34 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
+
+        // Produk toko damar
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 1,
             'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
-            'name' => 'indomie',
-            'description' => 'deskripsi produk indomie',
+            'name' => 'Indomie Goreng',
+            'description' => 'Deskripsi produk indomie',
+            'price' => 2500,
+            'quantity' => 100
+        ]);
+
+        \App\Product::create([
+            'category_id' => 1,
+            'store_id' => 1,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'Indomie Ayam Bawang',
+            'description' => 'Deskripsi produk indomie',
+            'price' => 2500,
+            'quantity' => 100
+        ]);
+
+        \App\Product::create([
+            'category_id' => 1,
+            'store_id' => 1,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'Indomie Soto',
+            'description' => 'Deskripsi produk indomie',
             'price' => 2500,
             'quantity' => 100
         ]);
@@ -25,29 +47,96 @@ class ProductSeeder extends Seeder
             'category_id' => 2,
             'store_id' => 1,
             'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
-            'name' => 'coffee homemade',
-            'description' => 'deskripsi produk coffee homemade',
-            'price' => 5000,
+            'name' => 'Kopi Nescafe',
+            'description' => 'Deskripsi produk kopi nescafe',
+            'price' => 2000,
+            'quantity' => 20,
         ]);
-
 
         \App\Product::create([
-            'category_id' => 1,
-            'store_id' => 2,
+            'category_id' => 2,
+            'store_id' => 1,
             'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
-            'name' => 'supermieee',
-            'description' => 'deskripsi produk supermiee',
-            'price' => 3500,
-            'quantity' => 50
+            'name' => 'Kopi Indocafe',
+            'description' => 'Deskripsi produk kopi indocafe',
+            'price' => 1500,
+            'quantity' => 30,
         ]);
 
+
+
+        // Produk toko yudha
         \App\Product::create([
             'category_id' => 2,
             'store_id' => 2,
             'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
             'name' => 'es poci',
             'description' => 'deskripsi produk es poci',
+            'price' => 3500,
+        ]);
+
+        \App\Product::create([
+            'category_id' => 2,
+            'store_id' => 2,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'es poci susu',
+            'description' => 'deskripsi produk es poci',
             'price' => 5000,
+        ]);
+
+        \App\Product::create([
+            'category_id' => 2,
+            'store_id' => 2,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'es poci thaitea',
+            'description' => 'deskripsi produk es poci',
+            'price' => 5000,
+        ]);
+
+        \App\Product::create([
+            'category_id' => 2,
+            'store_id' => 2,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'es poci jeruk',
+            'description' => 'deskripsi produk es poci',
+            'price' => 4000,
+        ]);
+
+        // produk toko izza
+        \App\Product::create([
+            'category_id' => 1,
+            'store_id' => 3,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'Donat',
+            'description' => 'deskripsi produk donat',
+            'price' => 1000,
+        ]);
+
+        \App\Product::create([
+            'category_id' => 1,
+            'store_id' => 3,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'Donat Gula Bubuk',
+            'description' => 'deskripsi produk donat',
+            'price' => 1500,
+        ]);
+
+        \App\Product::create([
+            'category_id' => 1,
+            'store_id' => 3,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'Donat Keju',
+            'description' => 'deskripsi produk donat',
+            'price' => 1500,
+        ]);
+
+        \App\Product::create([
+            'category_id' => 1,
+            'store_id' => 3,
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'name' => 'Donat Coklat',
+            'description' => 'deskripsi produk donat',
+            'price' => 1500,
         ]);
     }
 }
