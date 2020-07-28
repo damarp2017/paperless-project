@@ -22,8 +22,9 @@ class CheckUserController extends Controller
     public function search(Request $request)
     {
         $data = $request->get('query');
-        $users = User::where('name', 'like', "%{$data}%")
+        $all = User::where('name', 'like', "%{$data}%")
             ->orWhere('email', 'like', "%{$data}%")->get();
+        $users = $all->except(\auth()->user()->id);
         $count = count($users);
         if ($count) {
             return response()->json([
