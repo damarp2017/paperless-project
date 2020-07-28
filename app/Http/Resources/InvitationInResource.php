@@ -14,6 +14,12 @@ class InvitationInResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        if (is_null($this->status)){
+            $status = null;
+        } else {
+            $status = (int)$this->status ? true : false;
+        }
         return [
             'id' => $this->id,
             'requested_by_store' => [
@@ -26,7 +32,7 @@ class InvitationInResource extends JsonResource
                 ]
             ],
             'role' => (int)$this->role,
-            'status' => (int)$this->status ? true : false,
+            'status' => $status,
             'invited_at' => $this->created_at->diffForHumans()
         ];
     }

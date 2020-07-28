@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use function Aws\boolean_value;
 
 class InvitationResource extends JsonResource
 {
@@ -14,6 +15,12 @@ class InvitationResource extends JsonResource
      */
     public function toArray($request)
     {
+        if (is_null($this->status)){
+            $status = null;
+        } else {
+            $status = (int)$this->status ? true : false;
+        }
+
         return [
             'id' => $this->id,
             'requested_by_store' => [
@@ -26,7 +33,7 @@ class InvitationResource extends JsonResource
                 'name' => $this->user->name,
             ],
             'role' => (int)$this->role,
-            'status' => (int)$this->status ? true : false,
+            'status' => $status,
             'invited_at' => $this->created_at->diffForHumans()
         ];
     }

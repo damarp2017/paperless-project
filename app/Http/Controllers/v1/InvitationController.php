@@ -81,7 +81,7 @@ class InvitationController extends Controller
         $invitation = Invitation::where('id', $invitation)->first();
         try {
             if ($invitation) {
-                $invitation->status = true;
+                $invitation->status = false;
                 $invitation->update();
                 return response()->json([
                     'status' => true,
