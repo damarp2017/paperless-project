@@ -41,12 +41,12 @@ class ReportsExport implements FromCollection, WithHeadings, ShouldAutoSize, Wit
     {
         return [
             'Pembeli',
-            'discount',
+            'Diskon',
             'order_id',
-            'name',
-            'price',
-            'quantity',
-            'created_at',
+            'Nama Produk',
+            'Harga',
+            'Jumlah',
+            'Terjual Pada',
         ];
     }
 }
