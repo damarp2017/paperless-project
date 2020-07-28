@@ -27,40 +27,39 @@ class OrderController extends Controller
         $all_orders = Order::where('buy_by_user', auth()->user()->id)->get();
         $user = auth()->user();
 
-        $my_store = Store::where('id', $request->store_id)->first();
-
-        if (isOwner($my_store) || isStaff($my_store) || isCashier($my_store)) {
-            if ($request->has('store_id')) {
-                $store = Store::where('id', $data['store_id'])->first();
+        if ($request->has('store_id')) {
+            $store = Store::where('id', $data['store_id'])->first();
+            if (isOwner($store) || isStaff($store) || isCashier($store)) {
                 $out = Order::where('buy_by_store', $store->id)->get();
                 $in = Order::where('sell_by_store', $store->id)->get();
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => "you do not have access",
+                    'data' => (object)[],
+                ], 403);
             }
-            return response()->json([
-                'status' => true,
-                'message' => 'OK',
-                'data' => [
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'image' => $user->image,
-                        'orders' => OrderProductResource::collection($all_orders),
-                    ],
-                    'store' => (!$request->has('store_id')) ? (object)[] : [
-                        'id' => $store->id,
-                        'name' => $store->name,
-                        'store_logo' => $store->store_logo,
-                        'out' => OrderProductResource::collection($out),
-                        'in' => OrderProductResource::collection($in),
-                    ]
-                ]
-            ]);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => "you do not have access",
-                'data' => (object)[],
-            ], 403);
+
         }
+        return response()->json([
+            'status' => true,
+            'message' => 'OK',
+            'data' => [
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'image' => $user->image,
+                    'orders' => OrderProductResource::collection($all_orders),
+                ],
+                'store' => (!$request->has('store_id')) ? (object)[] : [
+                    'id' => $store->id,
+                    'name' => $store->name,
+                    'store_logo' => $store->store_logo,
+                    'out' => OrderProductResource::collection($out),
+                    'in' => OrderProductResource::collection($in),
+                ]
+            ]
+        ]);
 
     }
 
