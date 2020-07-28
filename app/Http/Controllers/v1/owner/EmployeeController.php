@@ -34,11 +34,11 @@ class EmployeeController extends Controller
 
     public function updateRole(Request $request, Store $store)
     {
-        $employee = Employee::where('store_id', $store->id)->where('user_id', $request->employee_id)->first();
+        $employee = Employee::where('store_id', $store->id)->where('user_id', $request->user_id)->first();
 
         $rules = [
             'role' => 'required',
-            'employee_id' => 'required',
+            'user   _id' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
