@@ -66,7 +66,8 @@ class ProductController extends Controller
             $rules = [
                 'category_id' => 'required',
                 'name' => 'required|max:100',
-                'image' => 'required|mimes:jpg,png,jpeg|max:1024',
+//                'image' => 'required|mimes:jpg,png,jpeg|max:1024',
+                'image' => 'required|mimes:jpg,png,jpeg|max:3072',
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
 //                'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
@@ -202,7 +203,8 @@ class ProductController extends Controller
     {
         if (isOwner($store) || isStaff($store)) {
             $rules = [
-                'image' => 'mimes:jpg,png,jpeg|max:1024',
+//                'image' => 'mimes:jpg,png,jpeg|max:1024',
+                'image' => 'mimes:jpg,png,jpeg|max:3072',
             ];
             if ($request->image != null) {
                 $file = $request->file('image');

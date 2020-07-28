@@ -67,7 +67,8 @@ class StoreController extends Controller
             'email' => 'required|email|max:50',
             'phone' => 'required|max:15',
             'address' => 'required',
-            'store_logo' => 'required|mimes:jpg,png,jpeg|max:1024',
+//            'store_logo' => 'required|mimes:jpg,png,jpeg|max:1024',
+            'store_logo' => 'required|mimes:jpg,png,jpeg|max:3072',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -112,7 +113,8 @@ class StoreController extends Controller
                 'email' => 'required|email',
                 'phone' => 'required',
                 'address' => 'required',
-                'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
+//                'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
+                'store_logo' => 'mimes:jpg,png,jpeg|max:3072',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {

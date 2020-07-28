@@ -48,7 +48,8 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $rules = [
-            'image' => 'required|mimes:jpg,png,jpeg|max:1024',
+//            'image' => 'required|mimes:jpg,png,jpeg|max:1024',
+            'image' => 'required|mimes:jpg,png,jpeg|max:3072',
         ];
 
         $validator = Validator::make($request->all(), $rules);
