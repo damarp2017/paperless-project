@@ -38,7 +38,7 @@ class EmployeeController extends Controller
 
         $rules = [
             'role' => 'required',
-            'user   _id' => 'required',
+            'user_id' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
