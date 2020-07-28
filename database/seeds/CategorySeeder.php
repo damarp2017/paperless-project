@@ -12,15 +12,23 @@ class CategorySeeder extends Seeder
     public function run()
     {
         \App\Category::create([
-            'name' => 'foods'
+            'name' => 'Makanan'
         ]);
 
         \App\Category::create([
-            'name' => 'drinks'
+            'name' => 'Minuman'
         ]);
 
         \App\Category::create([
-            'name' => 'others'
+            'name' => 'Elektronik'
+        ]);
+
+        \App\Category::create([
+            'name' => 'Jasa'
+        ]);
+
+        \App\Category::create([
+            'name' => 'Lainnya'
         ]);
     }
 }
