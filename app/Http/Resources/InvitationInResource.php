@@ -25,8 +25,8 @@ class InvitationInResource extends JsonResource
                     'name' => $this->store->owner->name,
                 ]
             ],
-            'role' => $this->role,
-            'status' => $this->status,
+            'role' => (int)$this->role,
+            'status' => (int)$this->status,
             'invited_at' => $this->created_at->diffForHumans()
         ];
     }
