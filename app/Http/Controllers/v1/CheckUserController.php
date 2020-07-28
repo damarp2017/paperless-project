@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckUserController extends Controller
 {
@@ -29,7 +30,7 @@ class CheckUserController extends Controller
                 'count' => $count,
                 'status' => true,
                 'message' => "users have been found",
-                'data' => $users,
+                'data' => UserResource::collection($users),
             ]);
         } else {
             return response()->json([

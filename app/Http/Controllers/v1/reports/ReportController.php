@@ -51,16 +51,24 @@ class ReportController extends Controller
     {
         $store_id = $request->store_id;
         $store = Store::where('id', $store_id)->first();
-        $filename = "$store->name-" . date_format(now(), 'ymd-His') . ".xlsx";
-        $filepath = "download/" . $filename;
-        Excel::store(new ReportsExport($store_id), $filepath,'s3', \Maatwebsite\Excel\Excel::XLSX);
-        $excel = Storage::disk('s3')->url($filepath, $filename);
-        return response()->json([
-            'status' => true,
-            'message' => "Ok",
-            'data' => [
-                'url' => $excel
-            ]
-        ]);
+        if (isOwner($store) || isStaff($store)) {
+            $filename = "$store->name-" . date_format(now(), 'ymd-His') . ".xlsx";
+            $filepath = "download/" . $filename;
+            Excel::store(new ReportsExport($store_id), $filepath,'s3', \Maatwebsite\Excel\Excel::XLSX);
+            $excel = Storage::disk('s3')->url($filepath, $filename);
+            return response()->json([
+                'status' => true,
+                'message' => "Ok",
+                'data' => [
+                    'url' => $excel
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => "you do not have access",
+                'data' => (object)[],
+            ], 403);
+        }
     }
 }

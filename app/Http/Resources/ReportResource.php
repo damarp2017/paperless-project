@@ -15,13 +15,18 @@ class ReportResource extends JsonResource
      */
     public function toArray($request)
     {
+        if ($this->order->buy_by_user) {
+            $buyer = $this->order->buyer_user->name . ' (User)';
+        } elseif ($this->order->buy_by_store) {
+            $buyer = $this->order->buyer_store->name . ' (Toko)';
+        } else {
+            $buyer = 'Tidak diketahui';
+        }
 
         return [
-            'buy_by_user' => ($this->order->buy_by_user) ? $this->order->buyer_user->name : null,
-            'buy_by_store' => ($this->order->buy_by_store) ? $this->order->buyer_store->name : null,
+            'buyer' => $buyer,
             'discount' => $this->order->discount,
             'order_id' => $this->order_id,
-            'product_id' => $this->product_id,
             'name' => $this->name,
             'price' => $this->price,
             'quantity' => $this->quantity,

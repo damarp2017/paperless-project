@@ -9,9 +9,11 @@ use App\OrderDetail;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStrictNullComparison;
 use function foo\func;
 
-class ReportsExport implements FromCollection, WithHeadings, ShouldAutoSize
+class ReportsExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStrictNullComparison
 {
     /**
      * ReportsExport constructor.
@@ -38,17 +40,13 @@ class ReportsExport implements FromCollection, WithHeadings, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'buy_by_user',
-            'buy_by_store',
+            'Pembeli',
             'discount',
             'order_id',
-            'product_id',
             'name',
-//            'image',
             'price',
             'quantity',
             'created_at',
-//            'updated_at'
         ];
     }
 }
