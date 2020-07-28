@@ -21,7 +21,7 @@ class EmployeeResource extends JsonResource
                 'name' => $this->user->name,
                 'image' => $this->user->image,
             ],
-            'role' => $this->role,
+            'role' => (int)$this->role,
             'joined_at' => $this->created_at->diffForHumans()
         ];
     }
