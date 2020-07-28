@@ -55,7 +55,7 @@ class ProductController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => "opss, it seems products that you're looking for is doesn't exist",
-                'data' => [],
+                'data' => (object)[],
             ]);
         }
     }
