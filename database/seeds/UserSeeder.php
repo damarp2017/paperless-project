@@ -16,6 +16,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => "Damar Permadany",
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
             'email' => "damarp2017@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -24,6 +25,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Prieyudha Akadita S",
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
             'email' => "akaditasustono@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -32,6 +34,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Izzatur Royhan",
+            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
             'email' => "royhan@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),

@@ -14,7 +14,7 @@ class AddCodeColumnOnOrderTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->string('code');
+            $table->string('code', 50);
         });
     }
 

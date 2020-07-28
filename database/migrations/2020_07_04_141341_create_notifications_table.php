@@ -15,12 +15,15 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('sender');
-            $table->unsignedInteger('receiver');
-            $table->tinyInteger('type');
+            $table->unsignedBigInteger('sender');
+            $table->unsignedBigInteger('receiver');
+            $table->boolean('type');
             $table->string('title');
             $table->text('subtitle');
             $table->timestamps();
+
+            $table->foreign('sender')->references('id')->on('stores');
+            $table->foreign('receiver')->references('id')->on('users');
         });
     }
 

@@ -66,7 +66,7 @@ class ProductController extends Controller
             $rules = [
                 'category_id' => 'required',
                 'name' => 'required|max:100',
-                'image' => 'mimes:jpg,png,jpeg|max:1024',
+                'image' => 'required|mimes:jpg,png,jpeg|max:1024',
                 'description' => '',
                 'price' => ['required', 'numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],
 //                'quantity' => ['numeric', 'regex:/^(?=.+)(?:[1-9]\d*|0)?(?:\.\d+)?$/'],

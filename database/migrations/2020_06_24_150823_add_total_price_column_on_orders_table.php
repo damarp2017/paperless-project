@@ -14,9 +14,9 @@ class AddTotalPriceColumnOnOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->integer('total_price')->nullable()->after('discount');
-            $table->integer('total_discount_by_percent')->nullable()->after('total_price');
-            $table->integer('total_price_with_discount')->nullable()->after('total_discount_by_percent');
+            $table->bigInteger('total_price')->nullable()->after('discount');
+            $table->bigInteger('total_discount_by_percent')->nullable()->after('total_price');
+            $table->bigInteger('total_price_with_discount')->nullable()->after('total_discount_by_percent');
         });
     }
 

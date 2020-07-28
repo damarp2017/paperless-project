@@ -18,8 +18,7 @@ class CreateInvitationsTable extends Migration
             $table->unsignedBigInteger('requested_by_store');
             $table->unsignedBigInteger('to');
             $table->boolean('status')->nullable();
-            $table->tinyInteger('role');
-            $table->string('message')->nullable();
+            $table->boolean('role');
             $table->timestamps();
             $table->softDeletes();
 

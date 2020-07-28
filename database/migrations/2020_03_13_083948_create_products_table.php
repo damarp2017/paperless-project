@@ -17,8 +17,8 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('store_id');
             $table->unsignedBigInteger('category_id');
-            $table->string('image')->default('https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png');
-            $table->string('name');
+            $table->text('image');
+            $table->string('name', 100);
             $table->string('code')->nullable();
             $table->text('description')->nullable();
             $table->integer('price');

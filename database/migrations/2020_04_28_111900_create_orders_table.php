@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('buy_by_user')->nullable();
             $table->unsignedBigInteger('buy_by_store')->nullable();
             $table->integer('discount')->default(0);
-            $table->tinyInteger('status')->nullable();
+            $table->boolean('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
