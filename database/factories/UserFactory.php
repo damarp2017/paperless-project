@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'image' => 'https://paperless-project.s3.ap-southeast-1.amazonaws.com/store-logo/200727194914-boy.png',
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'api_token' => Str::random(80),

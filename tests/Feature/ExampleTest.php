@@ -50,9 +50,9 @@ class ExampleTest extends TestCase
             'Authorization' => 'Bearer ' . $user->api_token,
         ])->json('POST', 'api/v1/own/store', [
             'name' => $this->faker->name,
-            'description' => $this->faker->words(2, true),
+            'description' => 'Deskripsi Sample',
             'email' => $this->faker->safeEmail,
-            'phone' => $this->faker->phoneNumber,
+            'phone' => '+628996308805',
             'address' => 'Kaligangsa',
             'store_logo' => $file
         ]);
@@ -70,10 +70,10 @@ class ExampleTest extends TestCase
             'Authorization' => 'Bearer ' . $user->api_token,
         ])->json('POST', 'api/v1/own/store', [
             'name' => $this->faker->name,
-            'description' => $this->faker->words(3, true),
-            'email' => $this->faker->name,
-            'phone' => $this->faker->phoneNumber,
-            'address' => $this->faker->address,
+            'description' => 'Deskripsi Sample',
+            'email' => 'Damar',
+            'phone' => '+628996308805',
+            'address' => 'Kaligangsa',
             'store_logo' => $file
         ]);
         $response->assertStatus(400);
