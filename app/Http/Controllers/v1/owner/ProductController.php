@@ -132,7 +132,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Store $store, Product $product)
     {
-        if (isOwner($store) || isStaff($store)) {
+        if (isOwner($store) || isStaff($store) || isCashier($store)) {
 //            $product = Product::where(['store_id' => $store->id, 'id' => $product->id])->first();
             $rules = [
                 'category_id' => 'required',
