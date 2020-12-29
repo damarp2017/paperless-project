@@ -16,7 +16,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 1,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Indomie Goreng',
             'description' => 'Deskripsi produk indomie',
             'price' => 2500,
@@ -26,7 +26,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 1,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Indomie Ayam Bawang',
             'description' => 'Deskripsi produk indomie',
             'price' => 2500,
@@ -36,7 +36,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 1,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Indomie Soto',
             'description' => 'Deskripsi produk indomie',
             'price' => 2500,
@@ -46,7 +46,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 2,
             'store_id' => 1,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Kopi Nescafe',
             'description' => 'Deskripsi produk kopi nescafe',
             'price' => 2000,
@@ -56,7 +56,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 2,
             'store_id' => 1,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Kopi Indocafe',
             'description' => 'Deskripsi produk kopi indocafe',
             'price' => 1500,
@@ -69,7 +69,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 2,
             'store_id' => 2,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'es poci',
             'description' => 'deskripsi produk es poci',
             'price' => 3500,
@@ -78,7 +78,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 2,
             'store_id' => 2,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'es poci susu',
             'description' => 'deskripsi produk es poci',
             'price' => 5000,
@@ -87,7 +87,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 2,
             'store_id' => 2,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'es poci thaitea',
             'description' => 'deskripsi produk es poci',
             'price' => 5000,
@@ -96,7 +96,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 2,
             'store_id' => 2,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'es poci jeruk',
             'description' => 'deskripsi produk es poci',
             'price' => 4000,
@@ -106,7 +106,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 3,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Donat',
             'description' => 'deskripsi produk donat',
             'price' => 1000,
@@ -115,7 +115,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 3,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Donat Gula Bubuk',
             'description' => 'deskripsi produk donat',
             'price' => 1500,
@@ -124,7 +124,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 3,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Donat Keju',
             'description' => 'deskripsi produk donat',
             'price' => 1500,
@@ -133,7 +133,7 @@ class ProductSeeder extends Seeder
         \App\Product::create([
             'category_id' => 1,
             'store_id' => 3,
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/product-image.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/product_onf7hn.png',
             'name' => 'Donat Coklat',
             'description' => 'deskripsi produk donat',
             'price' => 1500,

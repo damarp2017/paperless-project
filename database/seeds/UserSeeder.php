@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => "Damar Permadany",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "damarp2017@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Prieyudha Akadita S",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "akaditasustono@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Izzatur Royhan",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "royhan@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Helfanza Nanda Alfara",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "elfan@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -52,7 +52,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Abu Muslih Assulkhani",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "abu@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -61,7 +61,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Ikhwanudin",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "ikhwan@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Afif Maulana",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "afif@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),
@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => "Ibnu Subhan",
-            'image' => 'https://paperless-project.s3-ap-southeast-1.amazonaws.com/default/user-profile.png',
+            'image' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/user_wttbnf.png',
             'email' => "ibnu@gmail.com",
             'password' => Hash::make("12345678"),
             'email_verified_at' => now(),

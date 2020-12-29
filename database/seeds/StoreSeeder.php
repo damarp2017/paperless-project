@@ -14,7 +14,7 @@ class StoreSeeder extends Seeder
     {
         Store::create([
             'name' => 'Toko Damar',
-            'store_logo' => 'https://paperless-project.s3.ap-southeast-1.amazonaws.com/default/store-logo.png',
+            'store_logo' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/store_qnl6rf.png',
             'description' => 'Ini adalah deskripsi toko damar',
             'email' => 'damarp2017@gmail.com',
             'phone' => '08996308805',
@@ -24,7 +24,7 @@ class StoreSeeder extends Seeder
 
         Store::create([
             'name' => 'Toko Yudha',
-            'store_logo' => 'https://paperless-project.s3.ap-southeast-1.amazonaws.com/default/store-logo.png',
+            'store_logo' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/store_qnl6rf.png',
             'description' => 'Ini adalah deskripsi toko yudha',
             'email' => 'akaditasustono@gmail.com',
             'phone' => '087780200002',
@@ -34,7 +34,7 @@ class StoreSeeder extends Seeder
 
         Store::create([
             'name' => 'Toko Izzatur',
-            'store_logo' => 'https://paperless-project.s3.ap-southeast-1.amazonaws.com/default/store-logo.png',
+            'store_logo' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/store_qnl6rf.png',
             'description' => 'Ini adalah deskripsi toko izzatur',
             'email' => 'izza@gmail.com',
             'phone' => '087780200010',
@@ -44,7 +44,7 @@ class StoreSeeder extends Seeder
 
         Store::create([
             'name' => 'Toko Helfanza',
-            'store_logo' => 'https://paperless-project.s3.ap-southeast-1.amazonaws.com/default/store-logo.png',
+            'store_logo' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/store_qnl6rf.png',
             'description' => 'Ini adalah deskripsi toko helfanza',
             'email' => 'elfan@gmail.com',
             'phone' => '087788101901',
@@ -54,7 +54,7 @@ class StoreSeeder extends Seeder
 
         Store::create([
             'name' => 'Toko Abu',
-            'store_logo' => 'https://paperless-project.s3.ap-southeast-1.amazonaws.com/default/store-logo.png',
+            'store_logo' => 'https://res.cloudinary.com/damarp2017/image/upload/v1607499791/default/store_qnl6rf.png',
             'description' => 'Ini adalah deskripsi toko abu',
             'email' => 'abu@gmail.com',
             'phone' => '085200820189',
