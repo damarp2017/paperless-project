@@ -116,8 +116,6 @@ class StoreController extends Controller
                 'email' => 'required|email',
                 'phone' => 'required',
                 'address' => 'required',
-//                'store_logo' => 'mimes:jpg,png,jpeg|max:1024',
-                'store_logo' => 'mimes:jpg,png,jpeg|max:3072',
             ];
             $validator = Validator::make($request->all(), $rules);
             if ($validator->fails()) {
@@ -164,11 +162,9 @@ class StoreController extends Controller
             }
 
             if ($request->store_logo != null) {
-                $file = $request->file('store_logo');
-                $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
-                $file_path = 'store-logo/' . $file_name;
-                Storage::disk('s3')->put($file_path, file_get_contents($file));
-                $store->store_logo = Storage::disk('s3')->url($file_path, $file_name);
+                $response = cloudinary()->upload($request->file('store_logo')->getRealPath(),
+                    array("folder" => "stores", "overwrite" => TRUE, "resource_type" => "image"))->getSecurePath();
+                $store->store_logo = $response;
             }
 
             $store->update();
