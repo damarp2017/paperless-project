@@ -34,10 +34,8 @@ class ReportController extends Controller
         $filename = $order->code . ".pdf";
         $filepath = "invoice/" . $filename;
 
-        $url = Storage::disk('s3')->url($filepath,$filename);
-
         Storage::put($filepath, $pdf->output());
-        
+
         return response()->json([
             'status' => true,
             'message' => "OK",
@@ -55,13 +53,16 @@ class ReportController extends Controller
         if (isOwner($store) || isStaff($store)) {
             $filename = "$store->name-" . date_format(now(), 'ymd-His') . ".xlsx";
             $filepath = "download/" . $filename;
-            Excel::store(new ReportsExport($store_id), $filepath,'s3', \Maatwebsite\Excel\Excel::XLSX);
-            $excel = Storage::disk('s3')->url($filepath, $filename);
+            Excel::store(new ReportsExport($store_id), $filepath, null, \Maatwebsite\Excel\Excel::XLSX);
+
+            // Storage::put($filepath, $pdf->output());
+
+            // $excel = Storage::disk('s3')->url($filepath, $filename);
             return response()->json([
                 'status' => true,
                 'message' => "Ok",
                 'data' => [
-                    'url' => $excel
+                    'url' => App::environment() == "local" ? URL::to("uploads/".$filepath) : URL::to("public/uploads/".$filepath)
                 ]
             ]);
         } else {
