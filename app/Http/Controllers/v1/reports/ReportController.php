@@ -10,6 +10,7 @@ use App\Order;
 use App\OrderDetail;
 use App\Store;
 //use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
