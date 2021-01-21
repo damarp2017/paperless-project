@@ -30,18 +30,19 @@ class ReportController extends Controller
         $total_price = array_sum($array_total_price);
         $total_price_with_discount = $total_price-$details->discount;
 
-//        return view('exports.invoice', compact(['details', 'total_price', 'total_price_with_discount']));
-
         $pdf = PDF::loadView('exports.invoice', compact(['details', 'total_price', 'total_price_with_discount']));
         $filename = $order->code . ".pdf";
         $filepath = "invoice/" . $filename;
-        Storage::disk('s3')->put($filepath, $pdf->output());
+
         $url = Storage::disk('s3')->url($filepath,$filename);
+
+        Storage::put($filepath, $pdf->output());
+        
         return response()->json([
             'status' => true,
             'message' => "OK",
             'data' => [
-                'url' => $url
+                'url' => App::environment() == "local" ? URL::to("uploads/".$filepath) : URL::to("public/uploads/".$filepath)
             ]
         ]);
 
