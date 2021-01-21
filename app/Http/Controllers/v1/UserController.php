@@ -61,11 +61,9 @@ class UserController extends Controller
         }
 
         if ($request->image != null) {
-            $file = $request->file('image');
-            $file_name = date('ymdHis') . "-" . $file->getClientOriginalName();
-            $file_path = 'store-logo/' . $file_name;
-            Storage::disk('s3')->put($file_path, file_get_contents($file));
-            $user->image = Storage::disk('s3')->url($file_path, $file_name);
+            $response = cloudinary()->upload($request->file('image')->getRealPath(),
+                array("folder" => "user", "overwrite" => TRUE, "resource_type" => "image"))->getSecurePath();
+            $user->image = $response;
         }
 
         $user->update();
